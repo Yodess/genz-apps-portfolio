@@ -4,7 +4,7 @@ import { type ReactNode } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Eye, Code2, Info, Github } from 'lucide-react'
+import { Eye, Code2, Info, Github, ExternalLink, ShoppingCart } from 'lucide-react'
 
 interface ProjectShowcaseProps {
   title: string
@@ -14,6 +14,9 @@ interface ProjectShowcaseProps {
   githubUrl?: string
   features?: string[]
   appDemo: ReactNode
+  liveUrl?: string
+  ctaLabel?: string
+  ctaUrl?: string
 }
 
 export function ProjectShowcase({
@@ -24,6 +27,9 @@ export function ProjectShowcase({
   githubUrl,
   features,
   appDemo,
+  liveUrl,
+  ctaLabel,
+  ctaUrl,
 }: ProjectShowcaseProps) {
   return (
     <div className="rounded-xl border bg-card overflow-hidden">
@@ -97,6 +103,24 @@ export function ProjectShowcase({
                 </ul>
               </>
             )}
+            <div className="flex flex-wrap gap-3 mt-8">
+              {liveUrl && (
+                <Button asChild>
+                  <a href={liveUrl} target="_blank" rel="noopener noreferrer">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Voir l&apos;application
+                  </a>
+                </Button>
+              )}
+              {ctaLabel && ctaUrl && (
+                <Button asChild variant={liveUrl ? 'outline' : 'default'}>
+                  <a href={ctaUrl}>
+                    <ShoppingCart className="w-4 h-4 mr-2" />
+                    {ctaLabel}
+                  </a>
+                </Button>
+              )}
+            </div>
           </div>
         </TabsContent>
       </Tabs>

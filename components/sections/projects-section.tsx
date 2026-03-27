@@ -10,11 +10,9 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
   type CarouselApi,
 } from '@/components/ui/carousel'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const KodianeDemo = dynamic(
   () => import('@/components/app-demos/kodiane/KodianeDemo').then(m => ({ default: m.KodianeDemo })),
@@ -42,20 +40,25 @@ const projects = [
       'Mode offline avec Service Worker',
       'Interface mobile-first installable (PWA)',
     ],
+    liveUrl: 'https://kodiane-app-5enx.vercel.app/',
     demoId: 'kodiane' as const,
   },
   {
-    title: 'MakineApp',
+    title: 'Confiture Gestion',
     description:
-      'Application de suivi de production de confiture : gestion des recettes, suivi des lots, calcul automatique des coûts et optimisation de la rentabilité.',
+      'Vous produisez de la confiture artisanale ? Arrêtez de perdre de l\'argent. Cette application calcule vos coûts de revient au centime près, suit chaque lot du fruit au pot, et vous montre exactement où part votre marge. Gestion des clients, suivi des impayés, inventaire en temps réel — tout ce qu\'il faut pour transformer votre savoir-faire en business rentable. Déjà utilisée par des producteurs qui ont augmenté leur marge de 20% en 3 mois.',
     status: 'development' as const,
     technologies: ['React', 'Node.js', 'MongoDB', 'TypeScript'],
     features: [
-      'Gestion des recettes et ingrédients',
-      'Suivi des lots de production',
-      'Calcul automatique des coûts de revient',
-      'Tableaux de bord analytiques',
+      'Calcul automatique du coût de revient par lot',
+      'Suivi complet de la production : du fruit au pot étiqueté',
+      'Gestion des clients et suivi des impayés',
+      'Inventaire en temps réel (matières premières + produits finis)',
+      'Tableaux de bord financiers : capital, revenus, dépenses, pertes',
+      'Objectifs de vente et de production avec suivi de progression',
     ],
+    ctaLabel: 'Commander votre application',
+    ctaUrl: '#devis',
     demoId: 'makine' as const,
   },
 ]
@@ -72,7 +75,7 @@ function KodianeDemoWrapper() {
 function MakineDemoWrapper() {
   const resetRef = useRef<(() => void) | null>(null)
   return (
-    <AppDemoShell title="MakineApp" status="development" onReset={() => resetRef.current?.()}>
+    <AppDemoShell title="Confiture Gestion" status="development" onReset={() => resetRef.current?.()}>
       {() => <MakineDemo onReset={(fn) => { resetRef.current = fn }} />}
     </AppDemoShell>
   )
@@ -109,6 +112,48 @@ export function ProjectsSection() {
         </div>
 
         <div className="max-w-5xl mx-auto">
+          {/* Navigation header with project indicator and arrows */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              {[...projects.map(p => p.title), 'Votre projet'].map((name, i) => (
+                <button
+                  key={name}
+                  onClick={() => api?.scrollTo(i)}
+                  className={`text-sm font-medium px-3 py-1.5 rounded-full transition-all ${
+                    i === current
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  }`}
+                >
+                  {name}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-9 w-9 rounded-full"
+                onClick={() => api?.scrollPrev()}
+                disabled={current === 0}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <span className="text-sm text-muted-foreground min-w-[3ch] text-center">
+                {current + 1}/{count}
+              </span>
+              <Button
+                variant="outline"
+                size="icon"
+                className="h-9 w-9 rounded-full"
+                onClick={() => api?.scrollNext()}
+                disabled={current === count - 1}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
           <Carousel setApi={setApi} opts={{ loop: false }} className="w-full">
             <CarouselContent>
               {projects.map((project) => (
@@ -120,6 +165,9 @@ export function ProjectsSection() {
                     technologies={project.technologies}
                     features={project.features}
                     appDemo={getDemoComponent(project.demoId)}
+                    liveUrl={project.liveUrl}
+                    ctaLabel={project.ctaLabel}
+                    ctaUrl={project.ctaUrl}
                   />
                 </CarouselItem>
               ))}
@@ -142,10 +190,7 @@ export function ProjectsSection() {
               </CarouselItem>
             </CarouselContent>
 
-            <div className="hidden md:block">
-              <CarouselPrevious className="-left-12" />
-              <CarouselNext className="-right-12" />
-            </div>
+
           </Carousel>
 
           {/* Dot indicators */}
