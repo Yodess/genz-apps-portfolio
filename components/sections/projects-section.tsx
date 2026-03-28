@@ -28,17 +28,27 @@ const projects = [
   {
     title: 'Kodiane',
     description:
-      'Application PWA complète pour gérer votre activité de kodiane : suivi des stocks en temps réel, comparaison des prix fournisseurs, gestion des listes d\'achats et historique complet des transactions.',
+      'Application PWA de gestion d\'achats pour marchés de gros — installable sur mobile, fonctionne hors ligne, déployée en production.',
     status: 'live' as const,
     technologies: ['Next.js 16', 'PostgreSQL (Neon)', 'Prisma', 'PWA', 'TypeScript', 'Zustand', 'Tailwind CSS'],
+    caseStudy: {
+      problem: 'Les commerçants algériens gèrent leurs achats au marché de gros avec des carnets papier et des photos. Résultat : oublis, mauvaises décisions de prix, aucun suivi des dépenses.',
+      solution: 'Une PWA mobile-first installable sur Android et iOS. Listes d\'achats structurées, comparaison de prix multi-fournisseurs avec paliers (gros / demi-gros / détail), historique complet, mode offline.',
+      results: [
+        'Livré de 0 à production en 6 semaines',
+        '15+ écrans, auth JWT, base PostgreSQL',
+        'PWA installable — disponible sur Vercel',
+        'Système freemium intégré (Free / Pro)',
+      ],
+    },
     features: [
       'Comparaison de prix multi-fournisseurs en temps réel',
-      'Multi-paliers de prix par produit (gros, demi-gros, détail)',
-      'Liaison entre produits similaires chez différents fournisseurs',
-      'Historique d\'achats avec détails produits et quantités',
-      'Authentification sécurisée (JWT + bcrypt)',
-      'Mode offline avec Service Worker',
-      'Interface mobile-first installable (PWA)',
+      'Multi-paliers de prix (gros, demi-gros, détail)',
+      'Liaison entre produits similaires',
+      'Historique d\'achats avec détails',
+      'Auth sécurisée (JWT + bcrypt)',
+      'Mode offline (Service Worker)',
+      'PWA installable sur Android & iOS',
     ],
     liveUrl: 'https://kodiane-app-5enx.vercel.app/',
     demoId: 'kodiane' as const,
@@ -46,16 +56,26 @@ const projects = [
   {
     title: 'Confiture Gestion',
     description:
-      'Vous produisez de la confiture artisanale ? Arrêtez de perdre de l\'argent. Cette application calcule vos coûts de revient au centime près, suit chaque lot du fruit au pot, et vous montre exactement où part votre marge. Gestion des clients, suivi des impayés, inventaire en temps réel — tout ce qu\'il faut pour transformer votre savoir-faire en business rentable. Déjà utilisée par des producteurs qui ont augmenté leur marge de 20% en 3 mois.',
+      'Application de gestion de production pour artisans — suivi des lots, coût de revient, stocks et ventes clients.',
     status: 'development' as const,
-    technologies: ['React', 'Node.js', 'MongoDB', 'TypeScript'],
+    technologies: ['Next.js 16', 'PostgreSQL', 'Prisma', 'TypeScript', 'Tailwind CSS'],
+    caseStudy: {
+      problem: 'Un producteur artisanal (confiture, conserves, agroalimentaire) ne sait pas exactement combien lui coûte un lot, ni combien il lui rapporte. La gestion se fait sur papier ou sur Excel.',
+      solution: 'Une application dédiée qui calcule le coût de revient au centime, suit chaque lot de la matière première au produit fini, gère les clients et les impayés, et affiche la marge réelle en temps réel.',
+      results: [
+        'Visibilité complète sur les marges par lot',
+        'Gestion des clients et suivi des impayés',
+        'Inventaire en temps réel',
+        'Adaptable à tout secteur de production artisanale',
+      ],
+    },
     features: [
       'Calcul automatique du coût de revient par lot',
-      'Suivi complet de la production : du fruit au pot étiqueté',
-      'Gestion des clients et suivi des impayés',
-      'Inventaire en temps réel (matières premières + produits finis)',
-      'Tableaux de bord financiers : capital, revenus, dépenses, pertes',
-      'Objectifs de vente et de production avec suivi de progression',
+      'Suivi de production : du fruit au pot étiqueté',
+      'Gestion des clients et impayés',
+      'Inventaire matières premières + produits finis',
+      'Tableaux de bord : capital, revenus, dépenses',
+      'Objectifs de vente et production',
     ],
     ctaLabel: 'Commander votre application',
     ctaUrl: '#devis',
@@ -102,12 +122,12 @@ export function ProjectsSection() {
     <section id="projets" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <Badge variant="secondary" className="mb-4">Portfolio</Badge>
+          <Badge variant="secondary" className="mb-4">Réalisations</Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
-            Applications que j&apos;ai développées
+            Des applications livrées, pas des maquettes
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Testez mes applications directement ici — cliquez, naviguez, explorez.
+            Chaque projet ci-dessous est en production. Testez l&apos;interface, lisez le case study — c&apos;est ce qu&apos;on peut faire pour votre activité.
           </p>
         </div>
 
@@ -164,6 +184,7 @@ export function ProjectsSection() {
                     status={project.status}
                     technologies={project.technologies}
                     features={project.features}
+                    caseStudy={project.caseStudy}
                     appDemo={getDemoComponent(project.demoId)}
                     liveUrl={project.liveUrl}
                     ctaLabel={project.ctaLabel}

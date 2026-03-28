@@ -6,6 +6,12 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Eye, Code2, Info, Github, ExternalLink, ShoppingCart } from 'lucide-react'
 
+interface CaseStudy {
+  problem: string
+  solution: string
+  results: string[]
+}
+
 interface ProjectShowcaseProps {
   title: string
   description: string
@@ -13,6 +19,7 @@ interface ProjectShowcaseProps {
   technologies: string[]
   githubUrl?: string
   features?: string[]
+  caseStudy?: CaseStudy
   appDemo: ReactNode
   liveUrl?: string
   ctaLabel?: string
@@ -26,6 +33,7 @@ export function ProjectShowcase({
   technologies,
   githubUrl,
   features,
+  caseStudy,
   appDemo,
   liveUrl,
   ctaLabel,
@@ -86,23 +94,70 @@ export function ProjectShowcase({
         {/* Info tab */}
         <TabsContent value="info" className="mt-0">
           <div className="p-8 min-h-[300px]">
-            <h3 className="text-lg font-semibold mb-3">{title}</h3>
-            <p className="text-muted-foreground mb-6 leading-relaxed">{description}</p>
-            {features && features.length > 0 && (
+            {caseStudy ? (
+              <div className="space-y-6">
+                {/* Case study : Problème → Solution → Résultats */}
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div className="rounded-xl bg-red-50 dark:bg-red-950/20 p-4 border border-red-100 dark:border-red-900/30">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-red-500 mb-2">Problème</p>
+                    <p className="text-sm text-foreground leading-relaxed">{caseStudy.problem}</p>
+                  </div>
+                  <div className="rounded-xl bg-blue-50 dark:bg-blue-950/20 p-4 border border-blue-100 dark:border-blue-900/30">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-blue-500 mb-2">Solution</p>
+                    <p className="text-sm text-foreground leading-relaxed">{caseStudy.solution}</p>
+                  </div>
+                  <div className="rounded-xl bg-green-50 dark:bg-green-950/20 p-4 border border-green-100 dark:border-green-900/30">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-green-600 mb-2">Résultats</p>
+                    <ul className="space-y-1">
+                      {caseStudy.results.map((r, i) => (
+                        <li key={i} className="flex items-start gap-1.5 text-sm text-foreground">
+                          <span className="text-green-500 mt-0.5 shrink-0">✓</span>
+                          {r}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Fonctionnalités */}
+                {features && features.length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-semibold mb-3 uppercase tracking-wider text-muted-foreground">
+                      Fonctionnalités
+                    </h4>
+                    <ul className="grid gap-1.5 sm:grid-cols-2">
+                      {features.map((feature, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm">
+                          <span className="text-primary mt-0.5 shrink-0">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
               <>
-                <h4 className="text-sm font-semibold mb-3 uppercase tracking-wider text-muted-foreground">
-                  Fonctionnalités
-                </h4>
-                <ul className="space-y-2">
-                  {features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm">
-                      <span className="text-primary mt-0.5">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                <h3 className="text-lg font-semibold mb-3">{title}</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed">{description}</p>
+                {features && features.length > 0 && (
+                  <>
+                    <h4 className="text-sm font-semibold mb-3 uppercase tracking-wider text-muted-foreground">
+                      Fonctionnalités
+                    </h4>
+                    <ul className="space-y-2">
+                      {features.map((feature, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm">
+                          <span className="text-primary mt-0.5">✓</span>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </>
             )}
+
             <div className="flex flex-wrap gap-3 mt-8">
               {liveUrl && (
                 <Button asChild>

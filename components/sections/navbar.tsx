@@ -10,6 +10,7 @@ const navLinks = [
   { label: 'Projets', href: '#projets' },
   { label: 'Services', href: '#services' },
   { label: 'Processus', href: '#processus' },
+  { label: 'Blog', href: '/blog', external: true },
 ]
 
 export function Navbar() {
@@ -26,6 +27,10 @@ export function Navbar() {
 
   const scrollToSection = (href: string) => {
     setIsMobileMenuOpen(false)
+    if (href.startsWith('/')) {
+      window.location.href = href
+      return
+    }
     if (href.startsWith('#')) {
       document.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth' })
     }
