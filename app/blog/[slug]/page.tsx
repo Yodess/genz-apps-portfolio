@@ -16,15 +16,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const post = getPostBySlug(slug)
   if (!post) return {}
+  const url = `https://www.genz-apps.com/blog/${slug}`
   return {
-    title: `${post.title} — GenZ Apps`,
+    title: post.title,
     description: post.excerpt,
+    alternates: { canonical: url },
     openGraph: {
       title: post.title,
       description: post.excerpt,
+      url,
       type: 'article',
       publishedTime: post.date,
       locale: 'fr_FR',
+      authors: ['GenZ Apps'],
+      images: [
+        {
+          url: '/images/og-default.png',
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: ['/images/og-default.png'],
     },
   }
 }
@@ -34,8 +52,24 @@ export default async function BlogPostPage({ params }: Props) {
   const post = getPostBySlug(slug)
   if (!post) notFound()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    author: { '@type': 'Organization', name: 'GenZ Apps', url: 'https://www.genz-apps.com' },
+    publisher: { '@type': 'Organization', name: 'GenZ Apps', url: 'https://www.genz-apps.com' },
+    url: `https://www.genz-apps.com/blog/${slug}`,
+    keywords: post.tags.join(', '),
+  }
+
   return (
     <main className="min-h-screen bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="container mx-auto px-4 py-12 md:py-20 max-w-2xl">
         {/* Back */}
         <Link

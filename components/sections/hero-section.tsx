@@ -29,25 +29,25 @@ export function HeroSection() {
               className="h-5 w-auto invert"
             />
             <span className="text-sm text-muted-foreground">
-              Developpeur Full-Stack
+              Développeur Full-Stack
             </span>
           </div>
 
           {/* Main heading */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance mb-6">
-            Transformez vos idees en{' '}
+            Transformez vos idées en{' '}
             <span className="text-primary">applications web performantes</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-4">
-            Developpeur full-stack specialise en PWA et applications metier sur mesure
+            Développeur full-stack spécialisé en PWA et applications métier sur mesure
           </p>
 
           {/* Description */}
           <p className="text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            Je concois des solutions digitales modernes, rapides et installables 
-            qui resolvent de vrais problemes business
+            Je conçois des solutions digitales modernes, rapides et installables 
+            qui résolvent de vrais problèmes business
           </p>
 
           {/* CTA buttons */}
@@ -74,11 +74,11 @@ export function HeroSection() {
           <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-border max-w-lg mx-auto">
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">3+</div>
-              <div className="text-sm text-muted-foreground">Annees d&apos;experience</div>
+              <div className="text-sm text-muted-foreground">Années d&apos;expérience</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">10+</div>
-              <div className="text-sm text-muted-foreground">Projets livres</div>
+              <div className="text-sm text-muted-foreground">Projets livrés</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">100%</div>
