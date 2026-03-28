@@ -67,6 +67,7 @@ export function KodianeDemo({ onReset }: { onReset?: (resetFn: () => void) => vo
         {screen === 'list-detail' && selectedList && (
           <KodianeListDetail
             list={selectedList}
+            suppliers={data.suppliers}
             onBack={() => setScreen('home')}
           />
         )}

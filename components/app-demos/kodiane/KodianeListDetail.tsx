@@ -1,15 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import type { KodianeList } from '../types'
-import { ArrowLeft, MapPin, Calendar } from 'lucide-react'
+import type { KodianeList, KodianeSupplier } from '../types'
+import { ArrowLeft, MapPin, Calendar, Phone } from 'lucide-react'
 
 interface Props {
   list: KodianeList
+  suppliers: KodianeSupplier[]
   onBack: () => void
 }
 
-export function KodianeListDetail({ list, onBack }: Props) {
+export function KodianeListDetail({ list, suppliers, onBack }: Props) {
   const [tab, setTab] = useState<'suppliers' | 'products'>('products')
 
   // Group items by supplier
@@ -102,30 +103,62 @@ export function KodianeListDetail({ list, onBack }: Props) {
             </div>
           </div>
         ))}
-        {tab === 'suppliers' && Object.entries(bySupplier).map(([name, items]) => (
-          <div key={name} className="bg-white rounded-xl p-4 shadow-sm border border-gray-50">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-semibold text-sm text-gray-800">{name}</h3>
-              <span className="text-xs bg-[#EDE9FE] text-[#6C3FE8] px-2 py-0.5 rounded-full font-medium">
-                {items.length} produits
-              </span>
-            </div>
-            <div className="space-y-1.5">
-              {items.map((item, i) => (
-                <div key={i} className="flex items-center justify-between text-xs">
-                  <span className="text-gray-500">{item.emoji} {item.productName}</span>
-                  <span className="text-gray-700 font-medium">{item.price} DA × {item.quantity}</span>
+        {tab === 'suppliers' && Object.entries(bySupplier).map(([name, items]) => {
+          const supplier = suppliers.find(s => s.name === name)
+          return (
+            <div key={name} className="bg-white rounded-xl p-4 shadow-sm border border-gray-50">
+              <div className="flex items-center gap-3 mb-3">
+                {supplier?.emoji && (
+                  <div className="w-10 h-10 rounded-xl bg-[#EDE9FE] flex items-center justify-center text-lg shrink-0">
+                    {supplier.emoji}
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold text-sm text-gray-800">{name}</h3>
+                  <span className="text-xs bg-[#EDE9FE] text-[#6C3FE8] px-2 py-0.5 rounded-full font-medium">
+                    {items.length} produits
+                  </span>
                 </div>
-              ))}
+              </div>
+              {supplier && (supplier.phone || supplier.location) && (
+                <div className="flex gap-2 mb-3">
+                  {supplier.phone && (
+                    <a
+                      href={`tel:${supplier.phone}`}
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#EDE9FE] text-[#6C3FE8] text-xs font-medium"
+                    >
+                      <Phone className="w-3.5 h-3.5" /> Appeler
+                    </a>
+                  )}
+                  {supplier.location && (
+                    <a
+                      href={`https://maps.google.com/?q=${encodeURIComponent(supplier.location)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#EDE9FE] text-[#6C3FE8] text-xs font-medium"
+                    >
+                      <MapPin className="w-3.5 h-3.5" /> Localisation
+                    </a>
+                  )}
+                </div>
+              )}
+              <div className="space-y-1.5">
+                {items.map((item, i) => (
+                  <div key={i} className="flex items-center justify-between text-xs">
+                    <span className="text-gray-500">{item.emoji} {item.productName}</span>
+                    <span className="text-gray-700 font-medium">{item.price} DA × {item.quantity}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 pt-2 border-t border-gray-100 flex justify-between text-xs">
+                <span className="text-gray-400">Sous-total</span>
+                <span className="font-semibold text-[#6C3FE8]">
+                  {items.reduce((s, i) => s + i.price * i.quantity, 0).toLocaleString('fr-DZ')} DA
+                </span>
+              </div>
             </div>
-            <div className="mt-2 pt-2 border-t border-gray-100 flex justify-between text-xs">
-              <span className="text-gray-400">Sous-total</span>
-              <span className="font-semibold text-[#6C3FE8]">
-                {items.reduce((s, i) => s + i.price * i.quantity, 0).toLocaleString('fr-DZ')} DA
-              </span>
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </div>
   )
