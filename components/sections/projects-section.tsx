@@ -1,276 +1,197 @@
 'use client'
 
-import { useRef, useCallback, useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ProjectShowcase } from '@/components/project-showcase'
-import { AppDemoShell } from '@/components/app-demos/AppDemoShell'
-import { LivePreviewPanel } from '@/components/app-demos/LivePreviewPanel'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from '@/components/ui/carousel'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight, ExternalLink, Check } from 'lucide-react'
+import { BrowserMockup } from '@/components/showcase/BrowserMockup'
+import { ArtisanaScene, KodianeScene, MakineScene } from '@/components/showcase/mockup-scenes'
+import { useScrollReveal } from '@/components/showcase/useScrollReveal'
 
-const KodianeDemo = dynamic(
-  () => import('@/components/app-demos/kodiane/KodianeDemo').then(m => ({ default: m.KodianeDemo })),
-  { ssr: false }
-)
+type Scene = 'artisanadz' | 'kodiane' | 'makine'
 
-const MakineDemo = dynamic(
-  () => import('@/components/app-demos/makine/MakineDemo').then(m => ({ default: m.MakineDemo })),
-  { ssr: false }
-)
+interface Project {
+  title: string
+  tagline: string
+  status: 'live' | 'development'
+  url: string
+  accent: string
+  scene: Scene
+  description: string
+  problem: string
+  solution: string
+  results: string[]
+  technologies: string[]
+}
 
-const projects = [
+const projects: Project[] = [
   {
     title: 'ArtisanaDZ',
-    description:
-      'Plateforme tout-en-un pour artisans algériens : réseau social, marketplace digitale et outils de gestion. En production sur artisanadz.com.',
-    status: 'live' as const,
-    technologies: ['Next.js / React', 'Microservices Node.js', 'PostgreSQL (Neon)', 'Cloudflare R2', 'JWT', 'Tailwind CSS', 'shadcn/ui'],
-    caseStudy: {
-      problem: "Les artisans algériens (pâtissiers, couturiers, créateurs) n'ont aucun endroit pour exister en ligne, vendre leurs créations, partager leur savoir-faire et gérer leur activité. Ils sont dispersés entre Instagram, WhatsApp et le papier.",
-      solution: "Une plateforme complète qui réunit trois mondes : un réseau social (feed, vidéos, follow, messagerie), une marketplace (ateliers de formation style Udemy, ebooks, patrons, recettes en vente) et des outils de gestion (boutique, stock, commandes, codes promo, avis).",
-      results: [
-        'En production sur artisanadz.com (SSL, domaine custom)',
-        'Architecture microservices scalable (6 services)',
-        'Marketplace + réseau social + ateliers en ligne',
-        'Upload média (photos, vidéos, PDF) via CDN Cloudflare',
-        'Messagerie privée, notifications, système de points',
-      ],
-    },
-    features: [
-      'Réseau social : feed, carrousel, vidéo plein écran, follow, likes',
-      'Marketplace : ateliers, ebooks, patrons, recettes en vente',
-      'Ateliers de formation style Udemy avec QCM interactifs',
-      'Boutique artisan : produits, stock, codes promo',
-      'Commandes, checkout, avis clients post-livraison',
-      'Messagerie privée temps réel',
-      'Profils publics par wilaya + classement',
+    tagline: 'Réseau social + marketplace pour artisans',
+    status: 'live',
+    url: 'artisanadz.com',
+    accent: '#C4501A',
+    scene: 'artisanadz',
+    description: "Plateforme tout-en-un pour les artisans algériens : réseau social, marketplace digitale et outils de gestion réunis sur un seul produit en production.",
+    problem: "Les artisans algériens n'ont aucun endroit pour exister en ligne, vendre leurs créations et gérer leur activité — dispersés entre Instagram, WhatsApp et le papier.",
+    solution: "Un réseau social (feed, vidéos, messagerie), une marketplace (ateliers style Udemy, ebooks, patrons, recettes) et des outils de gestion (boutique, stock, commandes, avis).",
+    results: [
+      'En production sur artisanadz.com (SSL, domaine custom)',
+      'Architecture microservices scalable (6 services)',
+      'Upload média via CDN Cloudflare, messagerie temps réel',
+      'Gamification : badges, classements, veille concurrentielle',
     ],
-    liveUrl: 'https://artisanadz.com',
-    demoId: 'artisanadz' as const,
+    technologies: ['Next.js / React', 'Microservices Node.js', 'PostgreSQL', 'Cloudflare R2', 'JWT'],
   },
   {
     title: 'Kodiane',
-    description:
-      'Application PWA de gestion d\'achats pour marchés de gros — installable sur mobile, fonctionne hors ligne, déployée en production.',
-    status: 'live' as const,
-    technologies: ['Next.js 16', 'PostgreSQL (Neon)', 'Prisma', 'PWA', 'TypeScript', 'Zustand', 'Tailwind CSS'],
-    caseStudy: {
-      problem: 'Les commerçants algériens gèrent leurs achats au marché de gros avec des carnets papier et des photos. Résultat : oublis, mauvaises décisions de prix, aucun suivi des dépenses.',
-      solution: 'Une PWA mobile-first installable sur Android et iOS. Listes d\'achats structurées, comparaison de prix multi-fournisseurs avec paliers (gros / demi-gros / détail), historique complet, mode offline.',
-      results: [
-        'Livré de 0 à production en 6 semaines',
-        '15+ écrans, auth JWT, base PostgreSQL',
-        'PWA installable — disponible sur Vercel',
-        'Système freemium intégré (Free / Pro)',
-      ],
-    },
-    features: [
-      'Comparaison de prix multi-fournisseurs en temps réel',
-      'Multi-paliers de prix (gros, demi-gros, détail)',
-      'Liaison entre produits similaires',
-      'Historique d\'achats avec détails',
-      'Auth sécurisée (JWT + bcrypt)',
-      'Mode offline (Service Worker)',
-      'PWA installable sur Android & iOS',
+    tagline: "PWA de gestion d'achats & comparaison de prix",
+    status: 'live',
+    url: 'kodiane-app.vercel.app',
+    accent: '#1D9E75',
+    scene: 'kodiane',
+    description: "Application PWA installable pour gérer ses achats au marché de gros — listes structurées, comparaison de prix multi-fournisseurs, mode offline.",
+    problem: "Les commerçants gèrent leurs achats au marché de gros sur des carnets papier : oublis, mauvaises décisions de prix, aucun suivi des dépenses.",
+    solution: "Une PWA mobile-first installable sur Android/iOS. Comparaison de prix multi-paliers (gros / demi-gros / détail), historique complet, fonctionnement hors ligne.",
+    results: [
+      'Livré de 0 à production en 6 semaines',
+      '15+ écrans, auth JWT, base PostgreSQL',
+      'PWA installable — fonctionne hors ligne',
+      'Système freemium intégré (Free / Pro)',
     ],
-    liveUrl: 'https://kodiane-app-5enx.vercel.app/',
-    demoId: 'kodiane' as const,
+    technologies: ['Next.js', 'PostgreSQL (Neon)', 'Prisma', 'PWA', 'TypeScript'],
   },
   {
-    title: 'Confiture Gestion',
-    description:
-      'Application de gestion de production pour artisans — suivi des lots, coût de revient, stocks et ventes clients.',
-    status: 'development' as const,
-    technologies: ['Next.js 16', 'PostgreSQL', 'Prisma', 'TypeScript', 'Tailwind CSS'],
-    caseStudy: {
-      problem: 'Un producteur artisanal (confiture, conserves, agroalimentaire) ne sait pas exactement combien lui coûte un lot, ni combien il lui rapporte. La gestion se fait sur papier ou sur Excel.',
-      solution: 'Une application dédiée qui calcule le coût de revient au centime, suit chaque lot de la matière première au produit fini, gère les clients et les impayés, et affiche la marge réelle en temps réel.',
-      results: [
-        'Visibilité complète sur les marges par lot',
-        'Gestion des clients et suivi des impayés',
-        'Inventaire en temps réel',
-        'Adaptable à tout secteur de production artisanale',
-      ],
-    },
-    features: [
-      'Calcul automatique du coût de revient par lot',
-      'Suivi de production : du fruit au pot étiqueté',
-      'Gestion des clients et impayés',
-      'Inventaire matières premières + produits finis',
-      'Tableaux de bord : capital, revenus, dépenses',
-      'Objectifs de vente et production',
+    title: 'Makine',
+    tagline: 'Gestion production & ventes artisan',
+    status: 'live',
+    url: 'makine-app.vercel.app',
+    accent: '#7F77DD',
+    scene: 'makine',
+    description: "ERP léger pour producteurs artisanaux : suivi des lots, coût de revient au centime, stocks, ventes clients et tableaux de bord en temps réel.",
+    problem: "Un producteur artisanal ne sait pas exactement combien lui coûte un lot ni combien il lui rapporte. Tout se gère sur papier ou Excel.",
+    solution: "Une application qui calcule le coût de revient par lot, suit chaque production de la matière première au produit fini, gère clients, impayés et marges, avec export comptable.",
+    results: [
+      'Traçabilité complète des lots de production',
+      'Calcul automatique du coût de revient et des marges',
+      'Export comptable (interconnexion ComptaDZ)',
+      'Dashboard temps réel + gamification métier',
     ],
-    ctaLabel: 'Commander votre application',
-    ctaUrl: '#devis',
-    demoId: 'makine' as const,
+    technologies: ['React', 'Express / Node.js', 'PostgreSQL (Neon)', 'Recharts', 'Vercel'],
   },
 ]
 
-function KodianeDemoWrapper() {
-  const resetRef = useRef<(() => void) | null>(null)
-  return (
-    <AppDemoShell title="Kodiane" status="live" onReset={() => resetRef.current?.()}>
-      {() => <KodianeDemo onReset={(fn) => { resetRef.current = fn }} />}
-    </AppDemoShell>
-  )
+function getScene(scene: Scene) {
+  if (scene === 'artisanadz') return <ArtisanaScene />
+  if (scene === 'kodiane') return <KodianeScene />
+  return <MakineScene />
 }
 
-function MakineDemoWrapper() {
-  const resetRef = useRef<(() => void) | null>(null)
-  return (
-    <AppDemoShell title="Confiture Gestion" status="development" onReset={() => resetRef.current?.()}>
-      {() => <MakineDemo onReset={(fn) => { resetRef.current = fn }} />}
-    </AppDemoShell>
-  )
-}
+function ProjectRow({ project, index }: { project: Project; index: number }) {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>()
+  const reversed = index % 2 === 1
 
-function ArtisanaDZPreview() {
   return (
-    <LivePreviewPanel
-      url="https://artisanadz.com"
-      label="Visiter artisanadz.com"
-      description="ArtisanaDZ est un produit complet en production. Réseau social, marketplace et gestion artisan réunis sur une seule plateforme — explorez le vrai site."
-      highlights={['6 · microservices', '3 · produits en 1', 'Live · en production']}
-    />
+    <div
+      ref={ref}
+      className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center transition-all duration-700 ${
+        visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}
+    >
+      {/* Mockup */}
+      <div className={reversed ? 'lg:order-2' : ''}>
+        <BrowserMockup url={project.url} accent={project.accent}>
+          {getScene(project.scene)}
+        </BrowserMockup>
+      </div>
+
+      {/* Texte */}
+      <div className={reversed ? 'lg:order-1' : ''}>
+        <div className="flex items-center gap-3 mb-4">
+          <span
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
+            style={{ background: `${project.accent}20`, color: project.accent }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: project.accent }} />
+            {project.status === 'live' ? 'En production' : 'En développement'}
+          </span>
+        </div>
+
+        <h3 className="text-3xl md:text-4xl font-bold mb-2">{project.title}</h3>
+        <p className="text-lg text-muted-foreground mb-5">{project.tagline}</p>
+        <p className="text-muted-foreground leading-relaxed mb-6">{project.description}</p>
+
+        {/* Case study condensé */}
+        <div className="space-y-3 mb-6">
+          <div className="flex gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-red-400 shrink-0 w-20 pt-0.5">Problème</span>
+            <p className="text-sm text-muted-foreground">{project.problem}</p>
+          </div>
+          <div className="flex gap-3">
+            <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 shrink-0 w-20 pt-0.5">Solution</span>
+            <p className="text-sm text-muted-foreground">{project.solution}</p>
+          </div>
+        </div>
+
+        {/* Résultats */}
+        <ul className="grid sm:grid-cols-2 gap-2 mb-6">
+          {project.results.map((r, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm">
+              <Check className="w-4 h-4 mt-0.5 shrink-0" style={{ color: project.accent }} />
+              <span>{r}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* Techs */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {project.technologies.map((t) => (
+            <Badge key={t} variant="outline" className="font-mono text-xs">{t}</Badge>
+          ))}
+        </div>
+
+        <Button asChild size="lg">
+          <a href={`https://${project.url}`} target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="w-4 h-4 mr-2" />
+            Voir le site
+          </a>
+        </Button>
+      </div>
+    </div>
   )
 }
 
 export function ProjectsSection() {
-  const [api, setApi] = useState<CarouselApi>()
-  const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    if (!api) return
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap())
-    api.on('select', () => setCurrent(api.selectedScrollSnap()))
-  }, [api])
-
-  const getDemoComponent = useCallback((demoId: 'kodiane' | 'makine' | 'artisanadz') => {
-    if (demoId === 'kodiane') return <KodianeDemoWrapper />
-    if (demoId === 'artisanadz') return <ArtisanaDZPreview />
-    return <MakineDemoWrapper />
-  }, [])
-
   return (
     <section id="projets" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-20">
           <Badge variant="secondary" className="mb-4">Réalisations</Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
             Des applications livrées, pas des maquettes
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Chaque projet ci-dessous est en production. Testez l&apos;interface, lisez le case study — c&apos;est ce qu&apos;on peut faire pour votre activité.
+            Chaque projet ci-dessous est en production. Découvrez ce qu&apos;on peut construire pour votre activité.
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto">
-          {/* Navigation header with project indicator and arrows */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              {[...projects.map(p => p.title), 'Votre projet'].map((name, i) => (
-                <button
-                  key={name}
-                  onClick={() => api?.scrollTo(i)}
-                  className={`text-sm font-medium px-3 py-1.5 rounded-full transition-all ${
-                    i === current
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                  }`}
-                >
-                  {name}
-                </button>
-              ))}
-            </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-9 w-9 rounded-full"
-                onClick={() => api?.scrollPrev()}
-                disabled={current === 0}
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </Button>
-              <span className="text-sm text-muted-foreground min-w-[3ch] text-center">
-                {current + 1}/{count}
-              </span>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-9 w-9 rounded-full"
-                onClick={() => api?.scrollNext()}
-                disabled={current === count - 1}
-              >
-                <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+        <div className="max-w-6xl mx-auto space-y-28">
+          {projects.map((project, i) => (
+            <ProjectRow key={project.title} project={project} index={i} />
+          ))}
+
+          {/* Carte CTA */}
+          <div className="rounded-2xl border border-dashed border-border bg-card/40 p-12 text-center">
+            <h3 className="text-2xl font-bold mb-3">Votre projet pourrait être ici</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Une idée d&apos;application ? Je la développe pour vous, de la maquette au déploiement en production.
+            </p>
+            <Button asChild size="lg">
+              <a href="#devis">
+                Demander un devis
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </a>
+            </Button>
           </div>
-
-          <Carousel setApi={setApi} opts={{ loop: false }} className="w-full">
-            <CarouselContent>
-              {projects.map((project) => (
-                <CarouselItem key={project.title}>
-                  <ProjectShowcase
-                    title={project.title}
-                    description={project.description}
-                    status={project.status}
-                    technologies={project.technologies}
-                    features={project.features}
-                    caseStudy={project.caseStudy}
-                    appDemo={getDemoComponent(project.demoId)}
-                    liveUrl={project.liveUrl}
-                    ctaLabel={project.ctaLabel}
-                    ctaUrl={project.ctaUrl}
-                  />
-                </CarouselItem>
-              ))}
-
-              {/* CTA slide */}
-              <CarouselItem>
-                <div className="rounded-xl border border-dashed bg-card/50 p-12 text-center min-h-[400px] flex flex-col items-center justify-center">
-                  <h3 className="text-xl font-semibold mb-3">Votre projet pourrait être ici</h3>
-                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    Vous avez une idée d&apos;application ? Je peux la développer pour vous,
-                    de la maquette au déploiement.
-                  </p>
-                  <Button asChild>
-                    <a href="#devis">
-                      Demander un devis
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </a>
-                  </Button>
-                </div>
-              </CarouselItem>
-            </CarouselContent>
-
-
-          </Carousel>
-
-          {/* Dot indicators */}
-          {count > 0 && (
-            <div className="flex items-center justify-center gap-2 mt-6">
-              {Array.from({ length: count }).map((_, i) => (
-                <button
-                  key={i}
-                  className={`h-2 rounded-full transition-all ${
-                    i === current ? 'w-6 bg-primary' : 'w-2 bg-muted-foreground/30'
-                  }`}
-                  onClick={() => api?.scrollTo(i)}
-                  aria-label={`Aller au projet ${i + 1}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
       </div>
     </section>
