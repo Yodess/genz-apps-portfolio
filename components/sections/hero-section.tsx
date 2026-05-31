@@ -73,16 +73,16 @@ export function HeroSection() {
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 mt-16 pt-8 border-t border-border max-w-lg mx-auto">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary">3+</div>
-              <div className="text-sm text-muted-foreground">Années d&apos;expérience</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary">10+</div>
-              <div className="text-sm text-muted-foreground">Projets livrés</div>
+              <div className="text-3xl font-bold text-primary">2</div>
+              <div className="text-sm text-muted-foreground">Apps en production</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary">100%</div>
-              <div className="text-sm text-muted-foreground">Satisfaction client</div>
+              <div className="text-sm text-muted-foreground">Livré, pas maquetté</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-primary">24h</div>
+              <div className="text-sm text-muted-foreground">Délai de réponse</div>
             </div>
           </div>
         </div>

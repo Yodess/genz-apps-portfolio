@@ -9,7 +9,8 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Field, FieldLabel, FieldGroup } from '@/components/ui/field'
 import { Spinner } from '@/components/ui/spinner'
-import { Shield, Clock, Send, CheckCircle } from 'lucide-react'
+import { Shield, Clock, Send, CheckCircle, MessageCircle } from 'lucide-react'
+import { WHATSAPP_URL } from '@/lib/contact'
 
 const projectTypes = [
   { value: 'webapp', label: 'Application web sur mesure' },
@@ -19,10 +20,10 @@ const projectTypes = [
 ]
 
 const budgetRanges = [
-  { value: 'under-2k', label: '< 2000 EUR' },
-  { value: '2k-5k', label: '2000 EUR - 5000 EUR' },
-  { value: '5k-10k', label: '5000 EUR - 10000 EUR' },
-  { value: 'over-10k', label: '> 10000 EUR' },
+  { value: 'under-50k', label: '< 50 000 DZD' },
+  { value: '50k-150k', label: '50 000 - 150 000 DZD' },
+  { value: '150k-400k', label: '150 000 - 400 000 DZD' },
+  { value: 'over-400k', label: '> 400 000 DZD' },
   { value: 'unknown', label: 'Je ne sais pas encore' },
 ]
 
@@ -71,10 +72,10 @@ export function ContactSection() {
         <div className="text-center mb-16">
           <Badge variant="secondary" className="mb-4">Contact</Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-balance">
-            Pret a lancer votre projet ?
+            Prêt à lancer votre projet ?
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Decrivez votre idee et recevez une reponse personnalisee sous 24h
+            Décrivez votre idée et recevez une réponse personnalisée sous 24h
           </p>
         </div>
 
@@ -84,11 +85,11 @@ export function ContactSection() {
               <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mb-4">
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-4 h-4 text-primary" />
-                  <span>Reponse sous 24h</span>
+                  <span>Réponse sous 24h</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Shield className="w-4 h-4 text-primary" />
-                  <span>Donnees confidentielles</span>
+                  <span>Données confidentielles</span>
                 </div>
               </div>
             </CardHeader>
@@ -98,9 +99,9 @@ export function ContactSection() {
                   <div className="w-16 h-16 rounded-full bg-success/20 flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="w-8 h-8 text-success" />
                   </div>
-                  <CardTitle className="mb-2">Demande envoyee !</CardTitle>
+                  <CardTitle className="mb-2">Demande envoyée !</CardTitle>
                   <CardDescription className="text-base">
-                    Merci pour votre message. Je vous repondrai dans les plus brefs delais.
+                    Merci pour votre message. Je vous répondrai dans les plus brefs délais.
                   </CardDescription>
                   <Button 
                     variant="outline" 
@@ -146,7 +147,7 @@ export function ContactSection() {
                           required
                         >
                           <SelectTrigger id="projectType" className="w-full">
-                            <SelectValue placeholder="Selectionnez" />
+                            <SelectValue placeholder="Sélectionnez" />
                           </SelectTrigger>
                           <SelectContent>
                             {projectTypes.map((type) => (
@@ -158,13 +159,13 @@ export function ContactSection() {
                         </Select>
                       </Field>
                       <Field>
-                        <FieldLabel htmlFor="budget">Budget estime</FieldLabel>
+                        <FieldLabel htmlFor="budget">Budget estimé</FieldLabel>
                         <Select
                           value={formData.budget}
                           onValueChange={(value) => setFormData({ ...formData, budget: value })}
                         >
                           <SelectTrigger id="budget" className="w-full">
-                            <SelectValue placeholder="Selectionnez" />
+                            <SelectValue placeholder="Sélectionnez" />
                           </SelectTrigger>
                           <SelectContent>
                             {budgetRanges.map((range) => (
@@ -181,7 +182,7 @@ export function ContactSection() {
                       <FieldLabel htmlFor="description">Description du projet *</FieldLabel>
                       <Textarea
                         id="description"
-                        placeholder="Decrivez votre idee en quelques lignes : objectifs, fonctionnalites souhaitees, contraintes eventuelles..."
+                        placeholder="Décrivez votre idée en quelques lignes : objectifs, fonctionnalités souhaitées, contraintes éventuelles..."
                         rows={5}
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -212,6 +213,25 @@ export function ContactSection() {
               )}
             </CardContent>
           </Card>
+
+          {/* Alternative WhatsApp — basse friction */}
+          <div className="flex items-center gap-4 my-8">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-sm text-muted-foreground">ou contactez-moi directement</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg bg-[#25D366] text-white font-medium hover:bg-[#1da851] transition-colors"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Discuter sur WhatsApp
+          </a>
+          <p className="text-center text-xs text-muted-foreground mt-3">
+            Réponse rapide · échange gratuit et sans engagement
+          </p>
         </div>
       </div>
     </section>

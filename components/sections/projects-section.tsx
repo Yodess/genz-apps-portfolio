@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ProjectShowcase } from '@/components/project-showcase'
 import { AppDemoShell } from '@/components/app-demos/AppDemoShell'
+import { LivePreviewPanel } from '@/components/app-demos/LivePreviewPanel'
 import {
   Carousel,
   CarouselContent,
@@ -25,6 +26,35 @@ const MakineDemo = dynamic(
 )
 
 const projects = [
+  {
+    title: 'ArtisanaDZ',
+    description:
+      'Plateforme tout-en-un pour artisans algériens : réseau social, marketplace digitale et outils de gestion. En production sur artisanadz.com.',
+    status: 'live' as const,
+    technologies: ['Next.js / React', 'Microservices Node.js', 'PostgreSQL (Neon)', 'Cloudflare R2', 'JWT', 'Tailwind CSS', 'shadcn/ui'],
+    caseStudy: {
+      problem: "Les artisans algériens (pâtissiers, couturiers, créateurs) n'ont aucun endroit pour exister en ligne, vendre leurs créations, partager leur savoir-faire et gérer leur activité. Ils sont dispersés entre Instagram, WhatsApp et le papier.",
+      solution: "Une plateforme complète qui réunit trois mondes : un réseau social (feed, vidéos, follow, messagerie), une marketplace (ateliers de formation style Udemy, ebooks, patrons, recettes en vente) et des outils de gestion (boutique, stock, commandes, codes promo, avis).",
+      results: [
+        'En production sur artisanadz.com (SSL, domaine custom)',
+        'Architecture microservices scalable (6 services)',
+        'Marketplace + réseau social + ateliers en ligne',
+        'Upload média (photos, vidéos, PDF) via CDN Cloudflare',
+        'Messagerie privée, notifications, système de points',
+      ],
+    },
+    features: [
+      'Réseau social : feed, carrousel, vidéo plein écran, follow, likes',
+      'Marketplace : ateliers, ebooks, patrons, recettes en vente',
+      'Ateliers de formation style Udemy avec QCM interactifs',
+      'Boutique artisan : produits, stock, codes promo',
+      'Commandes, checkout, avis clients post-livraison',
+      'Messagerie privée temps réel',
+      'Profils publics par wilaya + classement',
+    ],
+    liveUrl: 'https://artisanadz.com',
+    demoId: 'artisanadz' as const,
+  },
   {
     title: 'Kodiane',
     description:
@@ -101,6 +131,17 @@ function MakineDemoWrapper() {
   )
 }
 
+function ArtisanaDZPreview() {
+  return (
+    <LivePreviewPanel
+      url="https://artisanadz.com"
+      label="Visiter artisanadz.com"
+      description="ArtisanaDZ est un produit complet en production. Réseau social, marketplace et gestion artisan réunis sur une seule plateforme — explorez le vrai site."
+      highlights={['6 · microservices', '3 · produits en 1', 'Live · en production']}
+    />
+  )
+}
+
 export function ProjectsSection() {
   const [api, setApi] = useState<CarouselApi>()
   const [current, setCurrent] = useState(0)
@@ -113,8 +154,9 @@ export function ProjectsSection() {
     api.on('select', () => setCurrent(api.selectedScrollSnap()))
   }, [api])
 
-  const getDemoComponent = useCallback((demoId: 'kodiane' | 'makine') => {
+  const getDemoComponent = useCallback((demoId: 'kodiane' | 'makine' | 'artisanadz') => {
     if (demoId === 'kodiane') return <KodianeDemoWrapper />
+    if (demoId === 'artisanadz') return <ArtisanaDZPreview />
     return <MakineDemoWrapper />
   }, [])
 
