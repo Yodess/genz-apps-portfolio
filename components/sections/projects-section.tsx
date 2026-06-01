@@ -46,7 +46,7 @@ const projects: Project[] = [
     title: 'Kodiane',
     tagline: "PWA de gestion d'achats & comparaison de prix",
     status: 'live',
-    url: 'kodiane-app.vercel.app',
+    url: 'kodiane-app-5enx.vercel.app',
     accent: '#1D9E75',
     scene: 'kodiane',
     description: "Application PWA installable pour gérer ses achats au marché de gros — listes structurées, comparaison de prix multi-fournisseurs, mode offline.",
