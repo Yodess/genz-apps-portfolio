@@ -365,6 +365,105 @@ function ApplyModal({ open, onClose }: { open: boolean; onClose: () => void }) {
 // ---------------------------------------------------------------------------
 const CTA_STYLE = { backgroundImage: 'linear-gradient(135deg, var(--warning), var(--chart-1))' } as const
 
+// ---------------------------------------------------------------------------
+// Postes recherchés — mini-explications (modifiables ici)
+// ---------------------------------------------------------------------------
+const RANK_DESC: Record<Rank, string> = {
+  maitre: 'Fondateur de la guilde : vision, direction produit et décisions finales sur tout l’écosystème.',
+  lame: 'Bras droit technique du Maître : architecture, code et exécution produit au quotidien.',
+  stratege: 'Bras gauche business : stratégie de croissance, partenariats, monétisation et go-to-market.',
+  rempart: 'Gardien de l’écosystème : sécurité, conformité, juridique et protection des données.',
+}
+
+const ROLE_DESC: Record<string, string> = {
+  'Architecte / Tech lead': 'Conçoit l’architecture, choisit la stack et garantit la qualité technique des apps.',
+  'Comptable': 'Structure la facturation et la comptabilité de l’écosystème et de ses apps.',
+  'Partenaire financier': 'Apporte capital ou financement et partage le risque comme la croissance.',
+  'Content creator': 'Produit du contenu (vidéo, réseaux) pour faire connaître l’écosystème et ses apps.',
+  'Ambassadeur ArtisanaDZ': 'Représente ArtisanaDZ sur le terrain et fait grandir le réseau d’artisans.',
+  'Ambassadeur Makine': 'Promeut Makine (ERP) auprès des ateliers et producteurs artisanaux.',
+  'Ambassadeur Kodiane': 'Diffuse Kodiane auprès des acheteurs et des commerçants.',
+  'Ambassadeur QuranLearn': 'Fait connaître QuranLearn aux écoles coraniques et aux professeurs (mouqri’/shaykh).',
+  'Ambassadeur ComptaApp': 'Promeut l’app de comptabilité (ComptaDZ) auprès des PME et artisans.',
+  'Ambassadeur Reda Photo': 'Représente toredalio auprès des photographes (cible internationale).',
+}
+
+// ---------------------------------------------------------------------------
+// Section "Postes recherchés" : Conseil (4) + Classes (10), avec explications
+// ---------------------------------------------------------------------------
+function PostsSection({
+  byRank, onApply,
+}: {
+  byRank: Partial<Record<Rank, GuildPublic>>
+  onApply: () => void
+}) {
+  const ranks = [...RANKS].sort((a, b) => RANK_META[a].order - RANK_META[b].order)
+  return (
+    <section className={`${FONT_BODY} border-t border-border bg-background px-4 py-16 text-foreground`}>
+      <div className="mx-auto max-w-5xl">
+        <h2 className={`${FONT_TITLE} text-2xl font-bold tracking-wide text-foreground`}>◣ Les postes recherchés</h2>
+        <p className="mt-2 max-w-2xl text-base leading-relaxed text-muted-foreground">
+          Ce dont la guilde a besoin pour avancer — et ce que chaque poste apporte à la mission.
+        </p>
+
+        {/* --- Le Conseil (4 postes clés) --- */}
+        <h3 className={`${FONT_TITLE} mt-8 text-xl font-bold tracking-wide text-foreground`}>👑 Le Conseil — 4 postes clés</h3>
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {ranks.map((rank) => {
+            const meta = RANK_META[rank]
+            const color = `var(${meta.colorVar})`
+            const holder = byRank[rank]
+            return (
+              <div key={rank} className="flex flex-col gap-2 rounded-xl border bg-card/50 p-5" style={{ borderColor: `color-mix(in srgb, ${color} 45%, transparent)` }}>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-2xl" aria-hidden="true">{meta.icon}</span>
+                  <span className={`${FONT_TITLE} text-lg font-bold tracking-wide text-foreground`}>{meta.label}</span>
+                  {holder ? (
+                    <span className="ml-auto rounded-full px-2.5 py-0.5 text-sm font-semibold" style={{ color, background: `color-mix(in srgb, ${color} 14%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 40%, transparent)` }}>
+                      Occupé par {holder.display_name}
+                    </span>
+                  ) : (
+                    <span className={`${FONT_MONO} ml-auto rounded-full px-2.5 py-0.5 text-sm font-bold tracking-widest`} style={{ color: 'var(--danger)', background: 'color-mix(in srgb, var(--danger) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--danger) 40%, transparent)' }}>
+                      ◆ RECHERCHÉ
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm font-semibold" style={{ color }}>{meta.subtitle}</p>
+                <p className="text-base leading-relaxed text-foreground/85">{RANK_DESC[rank]}</p>
+                {!holder && (
+                  <button type="button" onClick={onApply} className="mt-1 inline-flex w-fit min-h-11 items-center rounded-lg border px-4 py-2 text-sm font-bold tracking-wide text-foreground transition-colors" style={{ borderColor: `color-mix(in srgb, ${color} 55%, transparent)`, background: `color-mix(in srgb, ${color} 10%, transparent)` }}>
+                    Postuler ▶
+                  </button>
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        {/* --- Les Classes (10 rôles) --- */}
+        <h3 className={`${FONT_TITLE} mt-10 text-xl font-bold tracking-wide text-foreground`}>🎯 Les classes — 10 rôles</h3>
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {ROLES.map((role) => (
+            <div key={role} className="flex flex-col gap-1.5 rounded-xl border border-border bg-card/50 p-4">
+              <div className="flex items-center gap-2">
+                <span className="text-xl" aria-hidden="true">{ROLE_ICON[role] ?? '🎮'}</span>
+                <span className="text-base font-semibold text-foreground">{role}</span>
+              </div>
+              <p className="text-base leading-relaxed text-muted-foreground">{ROLE_DESC[role] ?? ''}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <button type="button" onClick={onApply} className="rounded-lg px-6 py-3 text-base font-bold tracking-wide text-warning-foreground shadow-lg transition-all hover:brightness-110" style={CTA_STYLE}>
+            ▶ Choisis ton poste & postule
+          </button>
+        </div>
+      </div>
+    </section>
+  )
+}
+
 export function GuildClient({
   roster, dbError,
 }: {
@@ -386,6 +485,7 @@ export function GuildClient({
   const openModal = useCallback(() => setModalOpen(true), [])
 
   return (
+    <>
     <section id="guilde" className={`${FONT_BODY} border-t border-border bg-card/20 px-4 py-16 text-foreground`}>
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -421,7 +521,12 @@ export function GuildClient({
         </div>
       </div>
 
-      <ApplyModal open={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
+
+    {/* Section "Postes recherchés" : Conseil + Classes, sous la guilde */}
+    <PostsSection byRank={byRank} onApply={openModal} />
+
+    <ApplyModal open={modalOpen} onClose={() => setModalOpen(false)} />
+    </>
   )
 }
