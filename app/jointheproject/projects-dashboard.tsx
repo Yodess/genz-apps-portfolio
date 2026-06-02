@@ -1,8 +1,12 @@
 import styles from './projects-dashboard.module.css'
 import { ActiveUnits, BmcButton } from './active-units'
+import { CountdownTimer } from './countdown-timer'
 import { getApp } from '@/lib/ecosystem'
 
 const QURAN = getApp('quranlearn')!
+
+// Échéance de la quête (modifiable ici) : départ 2026-06-02, +6 mois.
+const QUEST_DEADLINE = '2026-12-02T00:00:00'
 
 // Dashboard SaaS Quest — les PROJETS en vedette (cœur de la page).
 // HUD dynamique : MODE SOLO/SQUAD + ligne Maître injectés depuis la guilde.
@@ -21,7 +25,7 @@ export function ProjectsDashboard({
           <span>⚡</span> GENZ <span>APPS</span>
         </div>
         <div className={styles.playerStats}>
-          <div className={styles.statItem}><span className={styles.icon}>⏱️</span> TIMER: 6 MOIS</div>
+          <div className={styles.statItem}><span className={styles.icon}>⏱️</span> <CountdownTimer deadline={QUEST_DEADLINE} /></div>
           <div className={`${styles.statItem} ${isSquad ? styles.squad : ''}`}>
             <span className={styles.icon}>⚔️</span> MODE: {squadLabel}
           </div>
