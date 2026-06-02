@@ -314,7 +314,6 @@ const ROLE_DESC: Record<string, string> = {
   'Ambassadeur ArtisanaDZ': 'Représente ArtisanaDZ sur le terrain et fait grandir le réseau d’artisans.',
   'Ambassadeur Makine': 'Promeut Makine (ERP) auprès des ateliers et producteurs artisanaux.',
   'Ambassadeur Kodiane': 'Diffuse Kodiane auprès des acheteurs et des commerçants.',
-  'Ambassadeur QuranLearn': 'Fait connaître QuranLearn aux écoles coraniques et aux professeurs (mouqri’/shaykh).',
   'Ambassadeur ComptaDZ': 'Promeut l’app de comptabilité (ComptaDZ) auprès des PME et artisans.',
   'Ambassadeur toredalio': 'Représente toredalio auprès des photographes (cible internationale).',
 }

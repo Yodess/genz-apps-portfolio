@@ -1,9 +1,6 @@
 import styles from './projects-dashboard.module.css'
-import { ActiveUnits, BmcButton } from './active-units'
+import { ActiveUnits } from './active-units'
 import { CountdownTimer } from './countdown-timer'
-import { getApp } from '@/lib/ecosystem'
-
-const QURAN = getApp('quranlearn')!
 
 // Échéance de la quête (modifiable ici) : départ 2026-06-02, +6 mois.
 const QUEST_DEADLINE = '2026-12-02T00:00:00'
@@ -43,63 +40,6 @@ export function ProjectsDashboard({
         <p>Building the ecosystem | 1 Dev, Infinite Scalability</p>
       </div>
 
-      {/* ====== HERO FLAGSHIP : QURANLEARN ====== */}
-      <div className={styles.heroFlagship}>
-        <div className={styles.heroWatermark} aria-hidden="true">ﷲ</div>
-        <div className={styles.heroFlagBadge}>★ Core Unit — Cœur de l’incubateur</div>
-        <div className={styles.heroGrid}>
-          <div>
-            <h2 className={styles.heroName}>
-              📖 QuranLearn <span className={styles.heroArabic} lang="ar" dir="rtl">قرآن ليرن</span>
-            </h2>
-            <div className={styles.heroTag}>Le projet phare · La raison d’être</div>
-            <p className={styles.heroDesc}>
-              L’app de suivi d’apprentissage du Coran pour les professeurs (mouqri’/shaykh) et les écoles
-              coraniques. Lecture du Coran gratuite pour tous, suivi pédagogique pour les enseignants,
-              transparence pour les parents. Symboliquement et spirituellement, elle est le cœur de tout
-              l’écosystème Genz.
-            </p>
-            <ul className={styles.heroFeatures}>
-              <li><span className={styles.dot}>◆</span> Mushaf cliquable (Hafs QCF4)</li>
-              <li><span className={styles.dot}>◆</span> Traduction + Tafsir multilingues</li>
-              <li><span className={styles.dot}>◆</span> Suivi élèves : fautes, notes /10</li>
-              <li><span className={styles.dot}>◆</span> Lien parent (WhatsApp)</li>
-              <li><span className={styles.dot}>◆</span> Multi-plateforme (PWA + mobile)</li>
-              <li><span className={styles.dot}>◆</span> Pack Ihssane · إحسان (gratuit)</li>
-            </ul>
-            <div className={styles.heroActions}>
-              <a className={styles.heroCta} href="https://quranlearn.artisanadz.com" target="_blank" rel="noopener noreferrer">
-                ▶ LANCER L’APP — quranlearn.artisanadz.com
-              </a>
-              <BmcButton app={QURAN} variant="hero" />
-            </div>
-          </div>
-          <div className={styles.heroSide}>
-            <h4>◢ Core Unit Status</h4>
-            <div className={styles.coreStat}>
-              <div className={styles.label}>État</div>
-              <div className={styles.coreStatusLive}><span className={styles.pulse} aria-hidden="true" /> EN LIGNE · PROD</div>
-            </div>
-            <div className={styles.coreStat}>
-              <div className={styles.label}>Lecteur Coran</div>
-              <div className={styles.value}>Live · Hafs</div>
-            </div>
-            <div className={styles.coreStat}>
-              <div className={styles.label}>Suivi professeur</div>
-              <div className={styles.value}>Live · Phase 2 ✓</div>
-            </div>
-            <div className={styles.coreStat}>
-              <div className={styles.label}>Forfaits</div>
-              <div className={styles.value}>Ihssane · Shaykh · Madrassa</div>
-            </div>
-            <div className={styles.coreStat}>
-              <div className={styles.label}>Progression V1</div>
-              <div className={styles.heroProgressTrack}><div className={styles.heroProgressFill} /></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Grille des projets */}
       <div className={styles.gridSection}>
         <div className={styles.sectionHeader}>
@@ -131,9 +71,6 @@ export function ProjectsDashboard({
               <li>🌐 Plateforme Investisseurs</li>
             </ul>
           </div>
-        </div>
-        <div className={styles.arcCoreNote}>
-          ★ QuranLearn · إحسان — le cœur spirituel de l’incubateur. Tout commence par elle.
         </div>
       </div>
     </div>

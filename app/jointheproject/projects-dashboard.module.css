@@ -81,137 +81,6 @@
 }
 .missionTitle p { color: var(--text-muted); font-size: 18px; margin-top: 10px; letter-spacing: 1px; }
 
-/* ====== HERO : QURANLEARN ====== */
-.heroFlagship {
-  position: relative;
-  background:
-    radial-gradient(circle at top right, rgba(245, 185, 66, 0.12), transparent 55%),
-    linear-gradient(135deg, #1c1a17 0%, #14130f 100%);
-  border: 1px solid var(--accent-gold);
-  border-radius: 24px;
-  padding: 40px;
-  margin-bottom: 50px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(245, 185, 66, 0.08), inset 0 0 60px rgba(245, 185, 66, 0.03);
-}
-.heroFlagship::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(245,185,66,0.02) 3px, transparent 4px);
-  pointer-events: none;
-}
-.heroWatermark {
-  position: absolute;
-  top: 50%;
-  left: 40px;
-  transform: translateY(-50%);
-  font-family: var(--font-amiri), serif;
-  font-size: 150px;
-  line-height: 1;
-  color: rgba(245, 185, 66, 0.06);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-}
-.heroFlagBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(245, 185, 66, 0.15);
-  border: 1px solid var(--accent-gold);
-  color: var(--accent-gold);
-  padding: 6px 16px;
-  border-radius: 30px;
-  font-family: var(--font-rajdhani), sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  position: relative;
-  z-index: 2;
-}
-.heroGrid {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-.heroName {
-  font-family: var(--font-orbitron), sans-serif;
-  font-size: 38px;
-  font-weight: 900;
-  margin: 0 0 6px;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-.heroArabic { font-family: var(--font-amiri), serif; font-size: 30px; color: var(--accent-gold); font-weight: 700; }
-.heroTag { color: var(--accent-gold); font-size: 15px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
-.heroDesc { color: #d8d2c4; font-size: 16px; line-height: 1.6; margin-bottom: 24px; max-width: 90%; }
-.heroFeatures {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 26px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px 18px;
-}
-.heroFeatures li { display: flex; align-items: center; gap: 10px; font-size: 16px; color: #cfc8ba; font-weight: 500; line-height: 1.5; }
-.heroFeatures li .dot { color: var(--accent-gold); font-size: 12px; }
-.heroCta {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--accent-gold);
-  color: #1a1408;
-  font-family: var(--font-orbitron), sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  letter-spacing: 1px;
-  text-decoration: none;
-  padding: 13px 26px;
-  border-radius: 10px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.heroCta:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(245, 185, 66, 0.35); }
-@media (prefers-reduced-motion: reduce) { .heroCta:hover { transform: none; } }
-.heroActions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
-
-.heroSide { background: rgba(0,0,0,0.25); border: 1px solid rgba(245, 185, 66, 0.25); border-radius: 18px; padding: 26px; }
-.heroSide h4 {
-  font-family: var(--font-rajdhani), sans-serif;
-  font-size: 14px;
-  letter-spacing: 2px;
-  color: var(--accent-gold);
-  margin: 0 0 18px;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-.coreStat { margin-bottom: 16px; }
-.coreStat .label { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
-.coreStat .value { font-size: 18px; font-weight: 700; color: #fff; }
-.coreStatusLive { display: inline-flex; align-items: center; gap: 7px; color: var(--secondary); font-weight: 700; font-size: 16px; }
-.pulse {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: var(--secondary);
-  box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.6);
-  animation: pulse 2s infinite;
-}
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.5); }
-  70% { box-shadow: 0 0 0 10px rgba(0, 212, 170, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
-}
-@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
-.heroProgressTrack { background: #000; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; }
-.heroProgressFill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent-gold), var(--secondary)); width: 70%; }
-
 /* Projects Grid */
 .gridSection { margin-bottom: 50px; }
 .sectionHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
@@ -346,16 +215,6 @@
 .arcColTitle { color: #fff; margin-top: 0; font-size: 18px; }
 .arcList { list-style: none; padding: 0; margin: 0; }
 .arcList li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 16px; }
-.arcCoreNote {
-  margin-top: 28px;
-  padding-top: 20px;
-  border-top: 1px solid var(--border);
-  font-size: 15px;
-  color: var(--accent-gold);
-  position: relative;
-  z-index: 2;
-  letter-spacing: 0.5px;
-}
 
 @media (max-width: 768px) {
   .missionTitle h1 { font-size: 28px; }
@@ -363,10 +222,4 @@
   .arcContent { grid-template-columns: 1fr; }
   .arcTitle { padding-right: 0; margin-bottom: 40px; }
   .cornerLock { top: 15px; right: 15px; padding: 6px 12px; font-size: 14px; }
-  .heroGrid { grid-template-columns: 1fr; gap: 26px; }
-  .heroName { font-size: 28px; }
-  .heroFeatures { grid-template-columns: 1fr; }
-  .heroWatermark { font-size: 90px; }
-  .heroDesc { max-width: 100%; }
-  .heroFlagship { padding: 28px 22px; }
 }

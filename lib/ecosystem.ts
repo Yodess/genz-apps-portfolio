@@ -1,5 +1,5 @@
 // Données BMC de l'écosystème GenZ Apps — hardcodées (source de vérité de la grille Active Units).
-export type AppStatus = 'LIVE' | 'DEPLOYED' | 'READY' | 'STANDBY' | 'PIPELINE' | 'DEV' | 'FLAGSHIP'
+export type AppStatus = 'LIVE' | 'DEPLOYED' | 'READY' | 'STANDBY' | 'PIPELINE' | 'DEV'
 
 export type AppBMC = {
   key: string; name: string; nameAr?: string; icon: string;
@@ -27,11 +27,6 @@ export const ECOSYSTEM: AppBMC[] = [
   { key: 'aizen', name: 'Aizen', icon: '🌐', status: 'DEPLOYED', tagline: 'Sites web clients pour artisans',
     url: 'https://aizen-algerie.com',
     bmc: { revenu: '—', couts: '—', prudent: '—', optimiste: '—', levier: '—' } },
-  { key: 'quranlearn', name: 'QuranLearn', nameAr: 'قرآن ليرن', icon: '📖', status: 'FLAGSHIP',
-    tagline: 'Cœur de l’incubateur — projet waqf', url: 'https://quranlearn.artisanadz.com',
-    bmc: { revenu: 'Forfaits Shaykh/Madrassa — 100% reversé (bourses talibine 3ilm + umra)', couts: 'Infra',
-      prudent: 'Profit Genz = 0 (waqf par design)', optimiste: '—',
-      levier: 'Légitimité + baraka + porte vers sponsors/mécènes' } },
   { key: 'comptadz', name: 'ComptaDZ', icon: '📊', status: 'STANDBY', tagline: 'Compta artisans/PME algériennes',
     bmc: { revenu: 'Abo 5 000 DA/mois + % par requête OCR', couts: 'API OCR (coût variable répercuté sur le %)',
       prudent: '100 000 DA/mois (20 payants)', optimiste: '250 000 DA/mois (50 payants)',
@@ -45,17 +40,16 @@ export const ECOSYSTEM: AppBMC[] = [
 ]
 
 // Métadonnées d'affichage par statut (label + tonalité couleur).
-export const STATUS_META: Record<AppStatus, { label: string; tone: 'live' | 'standby' | 'pipeline' | 'dev' | 'flagship' }> = {
+export const STATUS_META: Record<AppStatus, { label: string; tone: 'live' | 'standby' | 'pipeline' | 'dev' }> = {
   LIVE: { label: 'LIVE', tone: 'live' },
   DEPLOYED: { label: 'DEPLOYED', tone: 'live' },
   READY: { label: 'READY TO SHIP', tone: 'live' },
-  FLAGSHIP: { label: 'FLAGSHIP', tone: 'flagship' },
   STANDBY: { label: 'STANDBY', tone: 'standby' },
   PIPELINE: { label: 'PIPELINE', tone: 'pipeline' },
   DEV: { label: 'IN DEV', tone: 'dev' },
 }
 
-/** Apps affichées dans la grille (le flagship QuranLearn est rendu en hero, pas en carte). */
-export const GRID_APPS = ECOSYSTEM.filter((a) => a.status !== 'FLAGSHIP')
+/** Apps affichées dans la grille Active Units (tout l'écosystème). */
+export const GRID_APPS = ECOSYSTEM
 
 export const getApp = (key: string): AppBMC | undefined => ECOSYSTEM.find((a) => a.key === key)

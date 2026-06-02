@@ -12,7 +12,6 @@ function BmcModal({ app, onClose }: { app: AppBMC; onClose: () => void }) {
   const closeRef = useRef<HTMLButtonElement>(null)
   const previouslyFocused = useRef<HTMLElement | null>(null)
   const meta = STATUS_META[app.status]
-  const isWaqf = app.status === 'FLAGSHIP'
 
   useEffect(() => {
     previouslyFocused.current = document.activeElement as HTMLElement
@@ -39,12 +38,12 @@ function BmcModal({ app, onClose }: { app: AppBMC; onClose: () => void }) {
 
   const toneClass =
     meta.tone === 'live' ? styles.toneLive : meta.tone === 'standby' ? styles.toneStandby :
-    meta.tone === 'pipeline' ? styles.tonePipeline : meta.tone === 'dev' ? styles.toneDev : styles.toneFlagship
+    meta.tone === 'pipeline' ? styles.tonePipeline : styles.toneDev
 
   const blocks: { label: string; value: string; gold?: boolean }[] = [
     { label: 'Revenu', value: app.bmc.revenu },
     { label: 'Coûts clés', value: app.bmc.couts },
-    { label: 'Estimation prudente (M12)', value: app.bmc.prudent, gold: isWaqf },
+    { label: 'Estimation prudente (M12)', value: app.bmc.prudent },
     { label: 'Estimation optimiste (M12)', value: app.bmc.optimiste },
     { label: 'Levier', value: app.bmc.levier },
   ]
@@ -121,7 +120,7 @@ export function ActiveUnits() {
           const meta = STATUS_META[app.status]
           const toneClass =
             meta.tone === 'live' ? styles.toneLive : meta.tone === 'standby' ? styles.toneStandby :
-            meta.tone === 'pipeline' ? styles.tonePipeline : meta.tone === 'dev' ? styles.toneDev : styles.toneFlagship
+            meta.tone === 'pipeline' ? styles.tonePipeline : styles.toneDev
           const cardClass = `${styles.card} ${meta.tone === 'standby' ? styles.cardStandby : ''} ${meta.tone === 'pipeline' ? styles.cardPipeline : ''}`
           return (
             <div key={app.key} className={cardClass}>

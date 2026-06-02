@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'Rejoindre le projet',
   description:
-    'Le dashboard SaaS Quest de GenZ Apps : QuranLearn, ArtisanaDZ, Makine, Kodiane et l’écosystème en construction. Rejoins la guilde qui bâtit 10 SaaS.',
+    'Le dashboard SaaS Quest de GenZ Apps : ArtisanaDZ, Makine, Kodiane et l’écosystème en construction. Rejoins la guilde qui bâtit 10 SaaS.',
   alternates: { canonical: 'https://www.genz-apps.com/jointheproject' },
 }
 
