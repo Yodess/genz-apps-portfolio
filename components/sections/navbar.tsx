@@ -11,6 +11,8 @@ const navLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Processus', href: '#processus' },
   { label: 'Blog', href: '/blog', external: true },
+  // Libellé modifiable ici en une ligne :
+  { label: 'Rejoindre le projet', href: '/jointheproject', external: true },
 ]
 
 export function Navbar() {

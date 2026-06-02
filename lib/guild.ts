@@ -40,11 +40,11 @@ export const ROLE_COLOR: Record<string, string> = {
 // Rangs du Conseil (hiérarchie). Chaque rang est unique (un seul porteur).
 export const RANKS = ['maitre', 'lame', 'stratege', 'rempart'] as const
 export type Rank = (typeof RANKS)[number]
-export const RANK_META: Record<Rank, { label: string; icon: string; colorVar: string; order: number }> = {
-  maitre: { label: 'Maître de Guilde', icon: '👑', colorVar: '--accent-gold', order: 0 },
-  lame: { label: 'La Lame', icon: '⚔️', colorVar: '--primary', order: 1 },
-  stratege: { label: 'Le Stratège', icon: '🔮', colorVar: '--secondary', order: 2 },
-  rempart: { label: 'Le Rempart', icon: '🛡️', colorVar: '--accent-purple', order: 3 },
+export const RANK_META: Record<Rank, { label: string; subtitle: string; icon: string; colorVar: string; order: number }> = {
+  maitre: { label: 'Maître de Guilde', subtitle: 'Founder', icon: '👑', colorVar: '--accent-gold', order: 0 },
+  lame: { label: 'La Lame', subtitle: 'Bras droit · Tech', icon: '⚔️', colorVar: '--primary', order: 1 },
+  stratege: { label: 'Le Stratège', subtitle: 'Bras gauche · Biz', icon: '🔮', colorVar: '--secondary', order: 2 },
+  rempart: { label: 'Le Rempart', subtitle: 'Sécu · Juridique', icon: '🛡️', colorVar: '--accent-purple', order: 3 },
 }
 
 // ---------------------------------------------------------------------------

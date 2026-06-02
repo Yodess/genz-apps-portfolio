@@ -45,6 +45,7 @@
   --warning-foreground: oklch(0.15 0 0);
   --accent-gold: oklch(0.82 0.15 85);
   --accent-purple: oklch(0.62 0.21 300);
+  --danger: oklch(0.63 0.24 25);
 }
 
 .dark {
@@ -87,6 +88,7 @@
   --warning-foreground: oklch(0.15 0 0);
   --accent-gold: oklch(0.82 0.15 85);
   --accent-purple: oklch(0.62 0.21 300);
+  --danger: oklch(0.63 0.24 25);
 }
 
 @theme inline {
