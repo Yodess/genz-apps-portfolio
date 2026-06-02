@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { verifySessionToken, SESSION_COOKIE } from '@/lib/admin-auth'
-import { listGuildAdmin, updateGuildStatus } from '@/lib/guild'
+import {
+  listGuildAdmin, updateGuildStatus, validateProfileUpdate, updateGuildProfile,
+  setRank, RANKS, type Rank,
+} from '@/lib/guild'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -40,6 +43,57 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ ok: true })
   } catch (error) {
     console.error('[api/guild/admin] PATCH erreur:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+// ---------------------------------------------------------------------------
+// PUT — édition de profil { id, display_name?, role?, apps?, pitch?, link? }
+// (ne touche pas à contact / status / ip_hash / rank)
+// ---------------------------------------------------------------------------
+export async function PUT(request: NextRequest) {
+  if (!isAuthed(request)) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+  try {
+    const body = await request.json()
+    const numId = Number(body?.id)
+    if (!Number.isInteger(numId) || numId <= 0) {
+      return NextResponse.json({ error: 'Identifiant invalide' }, { status: 400 })
+    }
+    const result = validateProfileUpdate(body)
+    if (!result.ok) return NextResponse.json({ error: result.error }, { status: 400 })
+    await updateGuildProfile(numId, result.value)
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error('[api/guild/admin] PUT erreur:', error)
+    return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
+  }
+}
+
+// ---------------------------------------------------------------------------
+// POST — promotion / rétrogradation { id, rank } où rank ∈ RANKS ou null
+// ---------------------------------------------------------------------------
+export async function POST(request: NextRequest) {
+  if (!isAuthed(request)) return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
+  try {
+    const body = await request.json()
+    const numId = Number(body?.id)
+    if (!Number.isInteger(numId) || numId <= 0) {
+      return NextResponse.json({ error: 'Identifiant invalide' }, { status: 400 })
+    }
+    const rawRank = body?.rank
+    // null = rétrograder ; sinon doit appartenir à RANKS.
+    let rank: Rank | null
+    if (rawRank === null) {
+      rank = null
+    } else if (typeof rawRank === 'string' && (RANKS as readonly string[]).includes(rawRank)) {
+      rank = rawRank as Rank
+    } else {
+      return NextResponse.json({ error: 'Rang invalide' }, { status: 400 })
+    }
+    await setRank(numId, rank)
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error('[api/guild/admin] POST erreur:', error)
     return NextResponse.json({ error: 'Erreur serveur' }, { status: 500 })
   }
 }
