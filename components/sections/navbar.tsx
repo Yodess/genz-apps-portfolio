@@ -29,13 +29,18 @@ export function Navbar() {
 
   const scrollToSection = (href: string) => {
     setIsMobileMenuOpen(false)
-    if (href.startsWith('/')) {
-      window.location.href = href
+    if (href.startsWith('#')) {
+      // Ancre de section : scroll si on est sur la home, sinon on renvoie vers /#ancre
+      // (les sections Projets/Services/Processus n'existent que sur la home).
+      if (window.location.pathname === '/') {
+        document.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        window.location.href = `/${href}`
+      }
       return
     }
-    if (href.startsWith('#')) {
-      document.getElementById(href.slice(1))?.scrollIntoView({ behavior: 'smooth' })
-    }
+    // Chemin absolu (/blog, /jointheproject)
+    window.location.href = href
   }
 
   return (
@@ -51,7 +56,10 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={() => {
+              if (window.location.pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' })
+              else window.location.href = '/'
+            }}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <Image
