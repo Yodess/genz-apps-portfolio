@@ -1,0 +1,371 @@
+/* Dashboard SaaS Quest — palette scopée au conteneur (n'affecte pas la guilde, sœur du DOM) */
+.container {
+  --primary: #ff6a00;
+  --secondary: #00d4aa;
+  --bg-dark: #0f0f13;
+  --bg-card: #1a1a24;
+  --text-main: #ffffff;
+  --text-muted: #8a8a9a;
+  --accent-purple: #7c3aed;
+  --accent-blue: #3b82f6;
+  --accent-gold: #f5b942;
+  --danger: #ef4444;
+  --border: #2a2a3a;
+
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  box-sizing: border-box;
+  font-family: var(--font-rajdhani), 'Segoe UI', sans-serif;
+  font-size: 16px;
+  color: var(--text-main);
+}
+.container * { box-sizing: border-box; }
+
+/* HUD Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.logo {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo span { color: var(--primary); }
+.playerStats {
+  display: flex;
+  gap: 20px;
+  background: var(--bg-card);
+  padding: 10px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  font-size: 15px;
+  flex-wrap: wrap;
+}
+.statItem { display: flex; align-items: center; gap: 8px; font-weight: 600; letter-spacing: 0.5px; }
+.statItem.squad { color: var(--secondary); }
+.icon { font-size: 18px; }
+
+.masterLine {
+  margin: -8px 0 28px;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+.masterLine strong { color: var(--accent-gold); font-weight: 700; }
+
+/* Mission Title */
+.missionTitle { text-align: center; margin-bottom: 44px; }
+.missionTitle h1 {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 40px;
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #fff, #aaa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.missionTitle p { color: var(--text-muted); font-size: 18px; margin-top: 10px; letter-spacing: 1px; }
+
+/* ====== HERO : QURANLEARN ====== */
+.heroFlagship {
+  position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(245, 185, 66, 0.12), transparent 55%),
+    linear-gradient(135deg, #1c1a17 0%, #14130f 100%);
+  border: 1px solid var(--accent-gold);
+  border-radius: 24px;
+  padding: 40px;
+  margin-bottom: 50px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(245, 185, 66, 0.08), inset 0 0 60px rgba(245, 185, 66, 0.03);
+}
+.heroFlagship::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(245,185,66,0.02) 3px, transparent 4px);
+  pointer-events: none;
+}
+.heroWatermark {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  font-family: var(--font-amiri), serif;
+  font-size: 150px;
+  line-height: 1;
+  color: rgba(245, 185, 66, 0.06);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.heroFlagBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(245, 185, 66, 0.15);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-family: var(--font-rajdhani), sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+}
+.heroGrid {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+.heroName {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  margin: 0 0 6px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.heroArabic { font-family: var(--font-amiri), serif; font-size: 30px; color: var(--accent-gold); font-weight: 700; }
+.heroTag { color: var(--accent-gold); font-size: 15px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+.heroDesc { color: #d8d2c4; font-size: 16px; line-height: 1.6; margin-bottom: 24px; max-width: 90%; }
+.heroFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 26px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 18px;
+}
+.heroFeatures li { display: flex; align-items: center; gap: 10px; font-size: 16px; color: #cfc8ba; font-weight: 500; line-height: 1.5; }
+.heroFeatures li .dot { color: var(--accent-gold); font-size: 12px; }
+.heroCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent-gold);
+  color: #1a1408;
+  font-family: var(--font-orbitron), sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  padding: 13px 26px;
+  border-radius: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.heroCta:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(245, 185, 66, 0.35); }
+@media (prefers-reduced-motion: reduce) { .heroCta:hover { transform: none; } }
+
+.heroSide { background: rgba(0,0,0,0.25); border: 1px solid rgba(245, 185, 66, 0.25); border-radius: 18px; padding: 26px; }
+.heroSide h4 {
+  font-family: var(--font-rajdhani), sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--accent-gold);
+  margin: 0 0 18px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.coreStat { margin-bottom: 16px; }
+.coreStat .label { font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+.coreStat .value { font-size: 18px; font-weight: 700; color: #fff; }
+.coreStatusLive { display: inline-flex; align-items: center; gap: 7px; color: var(--secondary); font-weight: 700; font-size: 16px; }
+.pulse {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--secondary);
+  box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.6);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.5); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 212, 170, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
+}
+@media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+.heroProgressTrack { background: #000; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+.heroProgressFill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent-gold), var(--secondary)); width: 70%; }
+
+/* Projects Grid */
+.gridSection { margin-bottom: 50px; }
+.sectionHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.sectionTitle {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+.sectionMeta { color: var(--text-muted); font-size: 15px; }
+.projectsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+
+.projectCard {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.projectCard:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-color: var(--primary); }
+@media (prefers-reduced-motion: reduce) { .projectCard:hover { transform: none; } }
+.statusBadge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 14px;
+  padding: 4px 9px;
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.statusLive, .statusFinal { background: rgba(0, 212, 170, 0.2); color: var(--secondary); }
+.statusDev { background: rgba(255, 106, 0, 0.2); color: var(--primary); }
+.statusStandby { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+.statusLocked { background: rgba(255, 255, 255, 0.1); color: var(--text-muted); }
+.projectName { font-size: 18px; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 10px; letter-spacing: 0.5px; padding-right: 70px; }
+.projectDesc { font-size: 16px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5; }
+.synergyBadge {
+  display: inline-block;
+  font-size: 14px;
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--accent-blue);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+.synergyCash { background: rgba(0, 212, 170, 0.2); color: var(--secondary); }
+.progressBarContainer { background: #000; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 10px; }
+.progressBar { height: 100%; border-radius: 4px; }
+.progressNote { font-size: 14px; margin-top: 5px; text-align: right; }
+
+/* Finance Panel */
+.financePanel {
+  background: linear-gradient(135deg, #1a1a24 0%, #141420 100%);
+  border: 1px solid var(--secondary);
+  border-radius: 20px;
+  padding: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 50px;
+  position: relative;
+  overflow: hidden;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.financePanel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(0, 212, 170, 0.1), transparent 70%);
+  pointer-events: none;
+}
+.goalText h2 { margin: 0; font-size: 30px; font-family: var(--font-orbitron), sans-serif; font-weight: 700; }
+.goalText p { color: var(--text-muted); margin-top: 5px; letter-spacing: 0.5px; font-size: 16px; }
+.goalAmount {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 46px;
+  font-weight: 900;
+  color: var(--secondary);
+  text-shadow: 0 0 20px rgba(0, 212, 170, 0.4);
+  position: relative;
+  z-index: 2;
+}
+.goalAmount span { font-size: 20px; color: var(--text-muted); }
+
+/* Next Arc */
+.nextArc { background: var(--bg-card); border-radius: 20px; padding: 40px; text-align: center; border: 1px dashed var(--accent-purple); position: relative; overflow: hidden; }
+.cornerLock {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid var(--accent-purple);
+  padding: 8px 16px;
+  border-radius: 30px;
+  color: var(--accent-purple);
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 10;
+  letter-spacing: 0.5px;
+}
+.cornerLock span { font-size: 16px; }
+.arcContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  text-align: left;
+  opacity: 0.5;
+  filter: grayscale(50%);
+  transition: opacity 0.3s, filter 0.3s;
+}
+.nextArc:hover .arcContent { opacity: 0.8; filter: none; }
+.arcTitle {
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: 22px;
+  color: var(--accent-purple);
+  margin-bottom: 30px;
+  font-weight: 700;
+  padding-right: 150px;
+  letter-spacing: 1px;
+}
+.arcColTitle { color: #fff; margin-top: 0; font-size: 18px; }
+.arcList { list-style: none; padding: 0; margin: 0; }
+.arcList li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 16px; }
+.arcCoreNote {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 15px;
+  color: var(--accent-gold);
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .missionTitle h1 { font-size: 28px; }
+  .goalAmount { font-size: 32px; }
+  .arcContent { grid-template-columns: 1fr; }
+  .arcTitle { padding-right: 0; margin-bottom: 40px; }
+  .cornerLock { top: 15px; right: 15px; padding: 6px 12px; font-size: 14px; }
+  .heroGrid { grid-template-columns: 1fr; gap: 26px; }
+  .heroName { font-size: 28px; }
+  .heroFeatures { grid-template-columns: 1fr; }
+  .heroWatermark { font-size: 90px; }
+  .heroDesc { max-width: 100%; }
+  .heroFlagship { padding: 28px 22px; }
+}
