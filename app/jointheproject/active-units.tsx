@@ -110,37 +110,46 @@ export function BmcButton({ app, variant = 'card' }: { app: AppBMC; variant?: 'c
 // Grille Active Units (data-driven depuis ECOSYSTEM, hors flagship)
 // ---------------------------------------------------------------------------
 export function ActiveUnits() {
+  // État remonté au niveau de la grille : le modal est rendu HORS des cartes
+  // (les cartes ont transform:translateY au :hover, ce qui créerait un bloc
+  // conteneur pour le overlay fixed et provoquait le clignotement ouvre/ferme).
+  const [openApp, setOpenApp] = useState<AppBMC | null>(null)
   return (
-    <div className={`${styles.scope} ${styles.grid}`}>
-      {GRID_APPS.map((app) => {
-        const meta = STATUS_META[app.status]
-        const toneClass =
-          meta.tone === 'live' ? styles.toneLive : meta.tone === 'standby' ? styles.toneStandby :
-          meta.tone === 'pipeline' ? styles.tonePipeline : meta.tone === 'dev' ? styles.toneDev : styles.toneFlagship
-        const cardClass = `${styles.card} ${meta.tone === 'standby' ? styles.cardStandby : ''} ${meta.tone === 'pipeline' ? styles.cardPipeline : ''}`
-        return (
-          <div key={app.key} className={cardClass}>
-            <div className={`${styles.badge} ${toneClass}`}>{meta.label}</div>
-            <div className={`${styles.name} ${meta.tone === 'pipeline' ? styles.namePipeline : ''}`}>
-              <span aria-hidden="true">{app.icon}</span> {app.name}
+    <div className={styles.scope}>
+      <div className={styles.grid}>
+        {GRID_APPS.map((app) => {
+          const meta = STATUS_META[app.status]
+          const toneClass =
+            meta.tone === 'live' ? styles.toneLive : meta.tone === 'standby' ? styles.toneStandby :
+            meta.tone === 'pipeline' ? styles.tonePipeline : meta.tone === 'dev' ? styles.toneDev : styles.toneFlagship
+          const cardClass = `${styles.card} ${meta.tone === 'standby' ? styles.cardStandby : ''} ${meta.tone === 'pipeline' ? styles.cardPipeline : ''}`
+          return (
+            <div key={app.key} className={cardClass}>
+              <div className={`${styles.badge} ${toneClass}`}>{meta.label}</div>
+              <div className={`${styles.name} ${meta.tone === 'pipeline' ? styles.namePipeline : ''}`}>
+                <span aria-hidden="true">{app.icon}</span> {app.name}
+              </div>
+              <div className={styles.tagline}>{app.tagline}</div>
+              <div className={styles.actions}>
+                <button type="button" className={`${styles.btn} ${styles.btnBmc}`} onClick={() => setOpenApp(app)}>
+                  📊 Business Model
+                </button>
+                {app.url && (
+                  <a
+                    className={`${styles.btn} ${meta.tone === 'dev' ? styles.btnOpenDev : styles.btnOpen}`}
+                    href={app.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Ouvrir ↗
+                  </a>
+                )}
+              </div>
             </div>
-            <div className={styles.tagline}>{app.tagline}</div>
-            <div className={styles.actions}>
-              <BmcButton app={app} />
-              {app.url && (
-                <a
-                  className={`${styles.btn} ${meta.tone === 'dev' ? styles.btnOpenDev : styles.btnOpen}`}
-                  href={app.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ouvrir ↗
-                </a>
-              )}
-            </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
+      {openApp && <BmcModal app={openApp} onClose={() => setOpenApp(null)} />}
     </div>
   )
 }
