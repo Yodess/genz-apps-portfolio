@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Mail, Clock, LogOut, Inbox, CheckCheck, Archive, Eye, AlertCircle, MessageSquare } from 'lucide-react'
+import { Mail, Clock, LogOut, Inbox, CheckCheck, Archive, Eye, AlertCircle, MessageSquare, Users } from 'lucide-react'
 import type { ContactRequest, RequestStatus } from '@/lib/db'
+import type { GuildAdmin } from '@/lib/guild'
+import { GuildModeration } from './guild-moderation'
 
 const STATUS_META: Record<RequestStatus, { label: string; className: string }> = {
   new: { label: 'Nouveau', className: 'bg-primary/15 text-primary border-primary/30' },
@@ -44,11 +46,21 @@ function formatDate(iso: string): string {
   })
 }
 
-export function AdminDashboard({ initialRequests, dbError }: { initialRequests: ContactRequest[]; dbError: boolean }) {
+export function AdminDashboard({
+  initialRequests, dbError, initialGuild, guildDbError,
+}: {
+  initialRequests: ContactRequest[]
+  dbError: boolean
+  initialGuild: GuildAdmin[]
+  guildDbError: boolean
+}) {
   const router = useRouter()
+  const [view, setView] = useState<'requests' | 'guild'>('requests')
   const [requests, setRequests] = useState(initialRequests)
   const [filter, setFilter] = useState<RequestStatus | 'all'>('all')
   const [busyId, setBusyId] = useState<number | null>(null)
+
+  const guildPending = useMemo(() => initialGuild.filter((g) => g.status === 'pending').length, [initialGuild])
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: requests.length }
@@ -88,18 +100,36 @@ export function AdminDashboard({ initialRequests, dbError }: { initialRequests: 
   return (
     <main className="min-h-[100dvh] bg-background">
       <header className="border-b bg-card/50 backdrop-blur sticky top-0 z-10">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Inbox className="w-5 h-5 text-primary" />
-            <h1 className="font-semibold">Demandes clients</h1>
-            <Badge variant="secondary">{counts.all || 0}</Badge>
-          </div>
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-2">
+          <nav className="flex items-center gap-1">
+            <button
+              onClick={() => setView('requests')}
+              className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${view === 'requests' ? 'bg-primary/15 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
+            >
+              <Inbox className="w-4 h-4" /> Demandes
+              <Badge variant="secondary">{counts.all || 0}</Badge>
+            </button>
+            <button
+              onClick={() => setView('guild')}
+              className={`flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors ${view === 'guild' ? 'bg-primary/15 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground'}`}
+            >
+              <Users className="w-4 h-4" /> Guilde
+              {guildPending > 0 && (
+                <Badge variant="outline" className="bg-warning/15 text-warning border-warning/30">{guildPending}</Badge>
+              )}
+            </button>
+          </nav>
           <Button variant="outline" size="sm" onClick={logout}>
             <LogOut className="w-4 h-4 mr-2" />Déconnexion
           </Button>
         </div>
       </header>
 
+      {view === 'guild' ? (
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+          <GuildModeration initialGuild={initialGuild} dbError={guildDbError} />
+        </div>
+      ) : (
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {dbError && (
           <div className="flex items-center gap-2 text-sm text-destructive mb-6 p-3 rounded-lg border border-destructive/30 bg-destructive/10">
@@ -169,6 +199,7 @@ export function AdminDashboard({ initialRequests, dbError }: { initialRequests: 
           </div>
         )}
       </div>
+      )}
     </main>
   )
 }
