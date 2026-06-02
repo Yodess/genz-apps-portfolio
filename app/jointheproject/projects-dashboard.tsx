@@ -1,4 +1,8 @@
 import styles from './projects-dashboard.module.css'
+import { ActiveUnits, BmcButton } from './active-units'
+import { getApp } from '@/lib/ecosystem'
+
+const QURAN = getApp('quranlearn')!
 
 // Dashboard SaaS Quest — les PROJETS en vedette (cœur de la page).
 // HUD dynamique : MODE SOLO/SQUAD + ligne Maître injectés depuis la guilde.
@@ -59,9 +63,12 @@ export function ProjectsDashboard({
               <li><span className={styles.dot}>◆</span> Multi-plateforme (PWA + mobile)</li>
               <li><span className={styles.dot}>◆</span> Pack Ihssane · إحسان (gratuit)</li>
             </ul>
-            <a className={styles.heroCta} href="https://quranlearn.artisanadz.com" target="_blank" rel="noopener noreferrer">
-              ▶ LANCER L’APP — quranlearn.artisanadz.com
-            </a>
+            <div className={styles.heroActions}>
+              <a className={styles.heroCta} href="https://quranlearn.artisanadz.com" target="_blank" rel="noopener noreferrer">
+                ▶ LANCER L’APP — quranlearn.artisanadz.com
+              </a>
+              <BmcButton app={QURAN} variant="hero" />
+            </div>
           </div>
           <div className={styles.heroSide}>
             <h4>◢ Core Unit Status</h4>
@@ -93,64 +100,9 @@ export function ProjectsDashboard({
       <div className={styles.gridSection}>
         <div className={styles.sectionHeader}>
           <div className={styles.sectionTitle}>📦 Active Units</div>
-          <div className={styles.sectionMeta}>4 Actifs / 1 Standby</div>
+          <div className={styles.sectionMeta}>4 déployées · 1 dev · 1 standby · 1 pipeline</div>
         </div>
-        <div className={styles.projectsGrid}>
-          {/* ARTISANADZ */}
-          <div className={styles.projectCard}>
-            <div className={`${styles.statusBadge} ${styles.statusLive}`}>LIVE</div>
-            <div className={`${styles.synergyBadge} ${styles.synergyCash}`}>💰 CASH COW</div>
-            <div className={styles.projectName}>🔨 ArtisanaDZ</div>
-            <div className={styles.projectDesc}>Réseau social + marketplace + ateliers pour artisans. MVP en ligne, monétisation principale.</div>
-            <div className={styles.progressBarContainer}><div className={styles.progressBar} style={{ width: '85%', background: 'var(--secondary)' }} /></div>
-            <div className={styles.progressNote} style={{ color: 'var(--secondary)' }}>MVP LIVE</div>
-          </div>
-          {/* MAKINE */}
-          <div className={styles.projectCard}>
-            <div className={`${styles.statusBadge} ${styles.statusLive}`}>DEPLOYED</div>
-            <div className={styles.synergyBadge}>⚡ POWER-UP · ERP</div>
-            <div className={styles.projectName}>🛠️ Makine</div>
-            <div className={styles.projectDesc}>ERP de production artisanale. Déployé, lié à ArtisanaDZ (SSO).</div>
-            <div className={styles.progressBarContainer}><div className={styles.progressBar} style={{ width: '80%', background: 'var(--secondary)' }} /></div>
-          </div>
-          {/* KODIANE */}
-          <div className={styles.projectCard}>
-            <div className={`${styles.statusBadge} ${styles.statusFinal}`}>READY TO SHIP</div>
-            <div className={styles.projectName}>🛒 Kodiane</div>
-            <div className={styles.projectDesc}>Gestion d’achats + comparateur de prix. Terminé, en attente Play Store.</div>
-            <div className={styles.progressBarContainer}><div className={styles.progressBar} style={{ width: '99%', background: 'var(--secondary)' }} /></div>
-            <div className={styles.progressNote} style={{ color: 'var(--secondary)' }}>99% COMPLETE</div>
-          </div>
-          {/* AIZEN */}
-          <div className={styles.projectCard}>
-            <div className={`${styles.statusBadge} ${styles.statusLive}`}>DEPLOYED</div>
-            <div className={styles.projectName}>🌐 Aizen</div>
-            <div className={styles.projectDesc}>Site web clients (artisans sans présence en ligne).</div>
-            <div className={styles.progressBarContainer}><div className={styles.progressBar} style={{ width: '90%', background: 'var(--secondary)' }} /></div>
-          </div>
-          {/* STANDBY : COMPTADZ */}
-          <div className={styles.projectCard} style={{ borderColor: 'var(--danger)' }}>
-            <div className={`${styles.statusBadge} ${styles.statusStandby}`}>STANDBY</div>
-            <div className={styles.projectName}>📊 ComptaDZ</div>
-            <div className={styles.projectDesc}>Comptabilité pour artisans/PME algériennes. En pause.</div>
-            <div className={styles.progressBarContainer}><div className={styles.progressBar} style={{ width: '40%', background: 'var(--danger)' }} /></div>
-          </div>
-          {/* PIPELINE : PRIXDZ */}
-          <div className={styles.projectCard} style={{ background: 'repeating-linear-gradient(45deg, #1a1a24, #1a1a24 10px, #111 10px, #111 20px)', borderStyle: 'dashed' }}>
-            <div className={`${styles.statusBadge} ${styles.statusLocked}`}>PIPELINE</div>
-            <div className={styles.projectName} style={{ color: 'var(--text-muted)' }}>🔒 PrixDZ</div>
-            <div className={styles.projectDesc}>Comparateur de prix.</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Objectif financier */}
-      <div className={styles.financePanel}>
-        <div className={styles.goalText}>
-          <h2>💎 OBJECTIF CASHFLOW</h2>
-          <p>Revenus mensuels récurrents (MRR)</p>
-        </div>
-        <div className={styles.goalAmount}>2 000 000 <span>DA</span></div>
+        <ActiveUnits />
       </div>
 
       {/* Next Arc : Incubateur */}

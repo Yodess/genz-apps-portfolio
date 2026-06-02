@@ -46,7 +46,7 @@ function CouncilFilledCard({ rank, member }: { rank: Rank; member: GuildPublic }
           <span className="inline-flex items-center gap-1.5 text-sm font-bold" style={{ color }}>
             <span aria-hidden="true">{meta.icon}</span> {meta.label}
           </span>
-          <h3 className={`${FONT_TITLE} truncate text-lg font-bold tracking-wide text-foreground`}>{member.display_name}</h3>
+          <h3 className={`${FONT_TITLE} text-base font-bold leading-tight tracking-wide text-foreground [overflow-wrap:anywhere]`}>{member.display_name}</h3>
         </div>
       </div>
 
