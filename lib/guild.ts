@@ -7,19 +7,19 @@ import { sql } from './db'
 export const ROLES = [
   'Architecte / Tech lead', 'Comptable', 'Partenaire financier', 'Content creator',
   'Ambassadeur ArtisanaDZ', 'Ambassadeur Makine', 'Ambassadeur Kodiane',
-  'Ambassadeur QuranLearn', 'Ambassadeur ComptaApp', 'Ambassadeur Reda Photo',
+  'Ambassadeur QuranLearn', 'Ambassadeur ComptaDZ', 'Ambassadeur toredalio',
 ] as const
 export type Role = (typeof ROLES)[number]
 
 export const APPS = [
-  'ArtisanaDZ', 'Makine', 'Kodiane', 'QuranLearn', 'ComptaApp', 'Reda Photo', 'Genz-Incub', 'Tout l’écosystème',
+  'ArtisanaDZ', 'Makine', 'Kodiane', 'QuranLearn', 'ComptaDZ', 'toredalio', 'Genz-Incub', 'Tout l’écosystème',
 ] as const
 export type App = (typeof APPS)[number]
 
 export const ROLE_ICON: Record<string, string> = {
   'Architecte / Tech lead': '🏛️', 'Comptable': '🧮', 'Partenaire financier': '💰', 'Content creator': '🎬',
   'Ambassadeur ArtisanaDZ': '🔨', 'Ambassadeur Makine': '🛠️', 'Ambassadeur Kodiane': '🛒',
-  'Ambassadeur QuranLearn': '📖', 'Ambassadeur ComptaApp': '📊', 'Ambassadeur Reda Photo': '📷',
+  'Ambassadeur QuranLearn': '📖', 'Ambassadeur ComptaDZ': '📊', 'Ambassadeur toredalio': '📷',
 }
 
 // Couleur de « classe » par rôle — uniquement des tokens de design EXISTANTS
@@ -33,8 +33,8 @@ export const ROLE_COLOR: Record<string, string> = {
   'Ambassadeur Makine': 'var(--chart-5)',
   'Ambassadeur Kodiane': 'var(--chart-2)',
   'Ambassadeur QuranLearn': 'var(--success)',
-  'Ambassadeur ComptaApp': 'var(--primary)',
-  'Ambassadeur Reda Photo': 'var(--chart-3)',
+  'Ambassadeur ComptaDZ': 'var(--primary)',
+  'Ambassadeur toredalio': 'var(--chart-3)',
 }
 
 // Rangs du Conseil (hiérarchie). Chaque rang est unique (un seul porteur).

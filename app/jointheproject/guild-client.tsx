@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import {
-  ROLES, APPS, ROLE_ICON, ROLE_COLOR, RANKS, RANK_META, type Rank, type GuildPublic,
+  ROLES, APPS, ROLE_ICON, ROLE_COLOR, RANK_META, type Rank, type GuildPublic,
 } from '@/lib/guild'
 
 const FONT_TITLE = 'font-[family-name:var(--font-orbitron)]'
@@ -17,57 +17,37 @@ function initials(name: string): string {
 }
 
 // ---------------------------------------------------------------------------
-// Slot du Conseil — POURVU (compact)
+// Carte recrue compacte (slide du carrousel)
 // ---------------------------------------------------------------------------
-function CouncilFilledCard({ rank, member }: { rank: Rank; member: GuildPublic }) {
-  const meta = RANK_META[rank]
-  const color = `var(${meta.colorVar})`
-  const isMaster = rank === 'maitre'
-
+function RecruitCard({ recruit }: { recruit: GuildPublic }) {
+  const color = ROLE_COLOR[recruit.role] ?? 'var(--primary)'
   return (
-    <article
-      className={`relative flex h-full flex-col gap-2.5 rounded-2xl bg-card p-5 transition-all duration-300 hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${isMaster ? 'border-2' : 'border'}`}
-      style={{
-        borderColor: `color-mix(in srgb, ${color} ${isMaster ? 70 : 55}%, transparent)`,
-        boxShadow: `0 0 ${isMaster ? '34px -12px' : '24px -14px'} ${color}`,
-      }}
-    >
-      {isMaster && (
-        <span className={`${FONT_MONO} absolute right-3 top-3 rounded-full px-2 py-0.5 text-xs font-bold tracking-widest`} style={{ color, background: `color-mix(in srgb, ${color} 15%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 45%, transparent)` }}>
-          LEADER
-        </span>
-      )}
-
+    <article className="flex h-full flex-col gap-2.5 rounded-2xl border border-border bg-card p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent/60 motion-reduce:transition-none motion-reduce:hover:translate-y-0">
       <div className="flex items-center gap-3">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-foreground shadow-inner" style={{ background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 25%, transparent))` }} aria-hidden="true">
-          {initials(member.display_name)}
-        </div>
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-foreground shadow-inner" style={{ background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 25%, transparent))` }} aria-hidden="true">
+          {initials(recruit.display_name)}
+        </span>
         <div className="min-w-0">
-          <span className="inline-flex items-center gap-1.5 text-sm font-bold" style={{ color }}>
-            <span aria-hidden="true">{meta.icon}</span> {meta.label}
-          </span>
-          <h3 className={`${FONT_TITLE} text-base font-bold leading-tight tracking-wide text-foreground [overflow-wrap:anywhere]`}>{member.display_name}</h3>
+          <h3 className={`${FONT_TITLE} text-base font-bold leading-tight tracking-wide text-foreground [overflow-wrap:anywhere]`}>{recruit.display_name}</h3>
+          <p className="mt-0.5 flex items-center gap-1.5 text-sm text-muted-foreground">
+            <span aria-hidden="true">{ROLE_ICON[recruit.role] ?? '🎮'}</span>
+            <span className="truncate">{recruit.role}</span>
+          </p>
         </div>
       </div>
 
-      <p className="text-sm text-muted-foreground">
-        <span style={{ color }} className="font-semibold">{meta.subtitle}</span>
-        <span className="mx-1.5" aria-hidden="true">·</span>
-        <span>{member.role}</span>
-      </p>
-
-      {member.apps.length > 0 && (
+      {recruit.apps.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
-          {member.apps.slice(0, 4).map((app) => (
+          {recruit.apps.slice(0, 4).map((app) => (
             <span key={app} className="rounded-full px-2 py-0.5 text-sm font-medium" style={{ color, background: `color-mix(in srgb, ${color} 12%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 35%, transparent)` }}>{app}</span>
           ))}
         </div>
       )}
 
-      <p className={`${FONT_BODY} line-clamp-2 text-base leading-relaxed text-foreground/85`}>{member.pitch}</p>
+      {recruit.pitch && <p className={`${FONT_BODY} line-clamp-2 text-base leading-relaxed text-foreground/85`}>{recruit.pitch}</p>}
 
-      {member.link && (
-        <a href={member.link} target="_blank" rel="noopener noreferrer nofollow" className="mt-auto inline-flex w-fit items-center gap-1 rounded-md border px-3 py-1.5 text-sm font-semibold text-foreground" style={{ borderColor: `color-mix(in srgb, ${color} 50%, transparent)` }}>
+      {recruit.link && (
+        <a href={recruit.link} target="_blank" rel="noopener noreferrer nofollow" className="mt-auto inline-flex w-fit items-center gap-1 rounded-md border px-3 py-1.5 text-sm font-semibold text-foreground" style={{ borderColor: `color-mix(in srgb, ${color} 50%, transparent)` }}>
           Profil <span aria-hidden="true">↗</span>
         </a>
       )}
@@ -76,34 +56,9 @@ function CouncilFilledCard({ rank, member }: { rank: Rank; member: GuildPublic }
 }
 
 // ---------------------------------------------------------------------------
-// Slot du Conseil — VACANT (compact)
+// Carrousel des recrues validées (swipe + flèches + dots) — plus de Conseil ici
 // ---------------------------------------------------------------------------
-function CouncilVacantCard({ rank, onApply }: { rank: Rank; onApply: () => void }) {
-  const meta = RANK_META[rank]
-  const color = `var(${meta.colorVar})`
-  return (
-    <article className="relative flex h-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed bg-card/40 p-5 text-center" style={{ borderColor: `color-mix(in srgb, ${color} 45%, transparent)` }}>
-      <span className="text-4xl opacity-40 grayscale" aria-hidden="true">{meta.icon}</span>
-      <h3 className={`${FONT_TITLE} text-lg font-bold tracking-wide text-foreground`}>{meta.label}</h3>
-      <p className="text-sm text-muted-foreground">{meta.subtitle}</p>
-      <span className={`${FONT_MONO} rounded-full px-2.5 py-0.5 text-sm font-bold tracking-widest`} style={{ color: 'var(--danger)', background: 'color-mix(in srgb, var(--danger) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--danger) 40%, transparent)' }}>
-        ◆ RECHERCHÉ
-      </span>
-      <p className={`${FONT_BODY} max-w-[24ch] text-base leading-relaxed text-muted-foreground`}>
-        Tu veux être {meta.label} ? Rejoins le Conseil.
-      </p>
-      <button type="button" onClick={onApply} className="mt-1 min-h-11 rounded-lg border px-4 py-2 text-sm font-bold tracking-wide text-foreground transition-colors" style={{ borderColor: `color-mix(in srgb, ${color} 55%, transparent)`, background: `color-mix(in srgb, ${color} 10%, transparent)` }}>
-        Postuler ▶
-      </button>
-    </article>
-  )
-}
-
-// ---------------------------------------------------------------------------
-// Carrousel du Conseil — 4 slots, hauteur réduite (swipe + flèches + dots)
-// ---------------------------------------------------------------------------
-function CouncilCarousel({ byRank, onApply }: { byRank: Partial<Record<Rank, GuildPublic>>; onApply: () => void }) {
-  const slides = useMemo(() => [...RANKS].sort((a, b) => RANK_META[a].order - RANK_META[b].order), [])
+function RecruitsCarousel({ recruits }: { recruits: GuildPublic[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const reducedRef = useRef(false)
   const [active, setActive] = useState(0)
@@ -115,11 +70,11 @@ function CouncilCarousel({ byRank, onApply }: { byRank: Partial<Record<Rank, Gui
   const scrollToIndex = useCallback((i: number) => {
     const track = trackRef.current
     if (!track) return
-    const clamped = Math.max(0, Math.min(slides.length - 1, i))
+    const clamped = Math.max(0, Math.min(recruits.length - 1, i))
     const card = track.children[clamped] as HTMLElement | undefined
     if (!card) return
     track.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: reducedRef.current ? 'auto' : 'smooth' })
-  }, [slides.length])
+  }, [recruits.length])
 
   const onScroll = useCallback(() => {
     const track = trackRef.current
@@ -135,54 +90,26 @@ function CouncilCarousel({ byRank, onApply }: { byRank: Partial<Record<Rank, Gui
 
   return (
     <div className="relative mt-5">
-      <button type="button" onClick={() => scrollToIndex(active - 1)} disabled={active === 0} aria-label="Slot précédent" className="absolute -left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-lg transition-colors hover:border-accent hover:text-accent disabled:opacity-40 sm:flex">‹</button>
-      <button type="button" onClick={() => scrollToIndex(active + 1)} disabled={active === slides.length - 1} aria-label="Slot suivant" className="absolute -right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-lg transition-colors hover:border-accent hover:text-accent disabled:opacity-40 sm:flex">›</button>
+      <button type="button" onClick={() => scrollToIndex(active - 1)} disabled={active === 0} aria-label="Recrue précédente" className="absolute -left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-lg transition-colors hover:border-accent hover:text-accent disabled:opacity-40 sm:flex">‹</button>
+      <button type="button" onClick={() => scrollToIndex(active + 1)} disabled={active === recruits.length - 1} aria-label="Recrue suivante" className="absolute -right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-lg transition-colors hover:border-accent hover:text-accent disabled:opacity-40 sm:flex">›</button>
 
-      <div ref={trackRef} onScroll={onScroll} className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="group" aria-roledescription="carrousel" aria-label="Le Conseil de la guilde">
-        {slides.map((rank) => {
-          const member = byRank[rank]
-          return (
-            <div key={rank} className="w-[78%] shrink-0 snap-start sm:w-[300px]">
-              {member ? <CouncilFilledCard rank={rank} member={member} /> : <CouncilVacantCard rank={rank} onApply={onApply} />}
-            </div>
-          )
-        })}
-      </div>
-
-      <div className="mt-2 flex items-center justify-center gap-1">
-        {slides.map((rank, i) => (
-          <button key={rank} type="button" onClick={() => scrollToIndex(i)} aria-label={`Aller au slot ${RANK_META[rank].label}`} aria-current={active === i} className="flex h-11 w-11 items-center justify-center">
-            <span className={`block rounded-full transition-all ${active === i ? 'h-2.5 w-6 bg-accent' : 'h-2.5 w-2.5 bg-muted-foreground/40'}`} />
-          </button>
+      <div ref={trackRef} onScroll={onScroll} className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" role="group" aria-roledescription="carrousel" aria-label="Recrues de la guilde">
+        {recruits.map((r) => (
+          <div key={r.id} className="w-[78%] shrink-0 snap-start sm:w-[300px]">
+            <RecruitCard recruit={r} />
+          </div>
         ))}
       </div>
-    </div>
-  )
-}
 
-// ---------------------------------------------------------------------------
-// Recrues validées — rangée compacte (avatars + nom + mini-badge rôle)
-// ---------------------------------------------------------------------------
-function RecruitsRow({ recruits }: { recruits: GuildPublic[] }) {
-  return (
-    <div className="mt-5 flex flex-wrap gap-2">
-      {recruits.map((r) => {
-        const color = ROLE_COLOR[r.role] ?? 'var(--primary)'
-        return (
-          <div key={r.id} className="flex items-center gap-2.5 rounded-full border border-border bg-card/60 py-1.5 pl-1.5 pr-3.5">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold text-foreground" style={{ background: `linear-gradient(135deg, ${color}, color-mix(in srgb, ${color} 25%, transparent))` }} aria-hidden="true">
-              {initials(r.display_name)}
-            </span>
-            <span className="min-w-0">
-              <span className={`${FONT_BODY} block truncate text-base font-semibold leading-tight text-foreground`}>{r.display_name}</span>
-              <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                <span aria-hidden="true">{ROLE_ICON[r.role] ?? '🎮'}</span>
-                <span className="truncate">{r.role}</span>
-              </span>
-            </span>
-          </div>
-        )
-      })}
+      {recruits.length > 1 && (
+        <div className="mt-2 flex items-center justify-center gap-1">
+          {recruits.map((r, i) => (
+            <button key={r.id} type="button" onClick={() => scrollToIndex(i)} aria-label={`Recrue ${i + 1}`} aria-current={active === i} className="flex h-11 w-11 items-center justify-center">
+              <span className={`block rounded-full transition-all ${active === i ? 'h-2.5 w-6 bg-accent' : 'h-2.5 w-2.5 bg-muted-foreground/40'}`} />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -375,6 +302,10 @@ const RANK_DESC: Record<Rank, string> = {
   rempart: 'Gardien de l’écosystème : sécurité, conformité, juridique et protection des données.',
 }
 
+// Intro au-dessus des 3 rôles compacts du Conseil (modifiable ici).
+const COUNCIL_INTRO =
+  'Ces trois rôles peuvent être confiés à toute personne motivée — mais leurs responsabilités sont réelles. Nous cherchons des gens capables de les assumer.'
+
 const ROLE_DESC: Record<string, string> = {
   'Architecte / Tech lead': 'Conçoit l’architecture, choisit la stack et garantit la qualité technique des apps.',
   'Comptable': 'Structure la facturation et la comptabilité de l’écosystème et de ses apps.',
@@ -384,8 +315,8 @@ const ROLE_DESC: Record<string, string> = {
   'Ambassadeur Makine': 'Promeut Makine (ERP) auprès des ateliers et producteurs artisanaux.',
   'Ambassadeur Kodiane': 'Diffuse Kodiane auprès des acheteurs et des commerçants.',
   'Ambassadeur QuranLearn': 'Fait connaître QuranLearn aux écoles coraniques et aux professeurs (mouqri’/shaykh).',
-  'Ambassadeur ComptaApp': 'Promeut l’app de comptabilité (ComptaDZ) auprès des PME et artisans.',
-  'Ambassadeur Reda Photo': 'Représente toredalio auprès des photographes (cible internationale).',
+  'Ambassadeur ComptaDZ': 'Promeut l’app de comptabilité (ComptaDZ) auprès des PME et artisans.',
+  'Ambassadeur toredalio': 'Représente toredalio auprès des photographes (cible internationale).',
 }
 
 // ---------------------------------------------------------------------------
@@ -397,7 +328,10 @@ function PostsSection({
   byRank: Partial<Record<Rank, GuildPublic>>
   onApply: () => void
 }) {
-  const ranks = [...RANKS].sort((a, b) => RANK_META[a].order - RANK_META[b].order)
+  const masterMeta = RANK_META.maitre
+  const masterColor = `var(${masterMeta.colorVar})`
+  const master = byRank.maitre
+  const otherRanks: Rank[] = (['lame', 'stratege', 'rempart'] as Rank[]).sort((a, b) => RANK_META[a].order - RANK_META[b].order)
   return (
     <section className={`${FONT_BODY} border-t border-border bg-background px-4 py-16 text-foreground`}>
       <div className="mx-auto max-w-5xl">
@@ -406,34 +340,70 @@ function PostsSection({
           Ce dont la guilde a besoin pour avancer — et ce que chaque poste apporte à la mission.
         </p>
 
-        {/* --- Le Conseil (4 postes clés) --- */}
-        <h3 className={`${FONT_TITLE} mt-8 text-xl font-bold tracking-wide text-foreground`}>👑 Le Conseil — 4 postes clés</h3>
-        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {ranks.map((rank) => {
+        {/* --- Le Conseil --- */}
+        <h3 className={`${FONT_TITLE} mt-8 text-xl font-bold tracking-wide text-foreground`}>👑 Le Conseil</h3>
+
+        {/* Maître de Guilde = vedette */}
+        <article className="relative mt-4 flex flex-col gap-3 rounded-2xl border-2 bg-card p-6 sm:p-7" style={{ borderColor: `color-mix(in srgb, ${masterColor} 70%, transparent)`, boxShadow: `0 0 46px -10px ${masterColor}` }}>
+          <span className={`${FONT_MONO} absolute right-4 top-4 rounded-full px-2.5 py-1 text-xs font-bold tracking-widest`} style={{ color: masterColor, background: `color-mix(in srgb, ${masterColor} 15%, transparent)`, border: `1px solid color-mix(in srgb, ${masterColor} 45%, transparent)` }}>
+            LEADER
+          </span>
+          <div className="flex flex-wrap items-center gap-2 pr-20">
+            <span className="text-3xl" aria-hidden="true">{masterMeta.icon}</span>
+            <span className={`${FONT_TITLE} text-2xl font-bold tracking-wide text-foreground`}>{masterMeta.label}</span>
+          </div>
+          <p className="text-base font-semibold" style={{ color: masterColor }}>{masterMeta.subtitle}</p>
+          {master ? (
+            <div className="flex items-center gap-3">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-lg font-bold text-foreground shadow-inner" style={{ background: `linear-gradient(135deg, ${masterColor}, color-mix(in srgb, ${masterColor} 25%, transparent))` }} aria-hidden="true">
+                {initials(master.display_name)}
+              </span>
+              <div className="min-w-0">
+                <p className={`${FONT_TITLE} text-xl font-bold leading-tight tracking-wide text-foreground [overflow-wrap:anywhere]`}>{master.display_name}</p>
+                <p className="text-sm font-semibold" style={{ color: masterColor }}>Poste occupé</p>
+              </div>
+            </div>
+          ) : (
+            <span className={`${FONT_MONO} w-fit rounded-full px-2.5 py-0.5 text-sm font-bold tracking-widest`} style={{ color: 'var(--danger)', background: 'color-mix(in srgb, var(--danger) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--danger) 40%, transparent)' }}>
+              ◆ RECHERCHÉ
+            </span>
+          )}
+          <p className="max-w-2xl text-base leading-relaxed text-foreground/85">{RANK_DESC.maitre}</p>
+          {!master && (
+            <button type="button" onClick={onApply} className="inline-flex w-fit min-h-11 items-center rounded-lg border px-4 py-2 text-sm font-bold tracking-wide text-foreground transition-colors" style={{ borderColor: `color-mix(in srgb, ${masterColor} 55%, transparent)`, background: `color-mix(in srgb, ${masterColor} 10%, transparent)` }}>
+              Postuler ▶
+            </button>
+          )}
+        </article>
+
+        {/* Les 3 autres rôles = compacts */}
+        <p className="mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground">{COUNCIL_INTRO}</p>
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {otherRanks.map((rank) => {
             const meta = RANK_META[rank]
             const color = `var(${meta.colorVar})`
             const holder = byRank[rank]
             return (
-              <div key={rank} className="flex flex-col gap-2 rounded-xl border bg-card/50 p-5" style={{ borderColor: `color-mix(in srgb, ${color} 45%, transparent)` }}>
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-2xl" aria-hidden="true">{meta.icon}</span>
-                  <span className={`${FONT_TITLE} text-lg font-bold tracking-wide text-foreground`}>{meta.label}</span>
-                  {holder ? (
-                    <span className="ml-auto rounded-full px-2.5 py-0.5 text-sm font-semibold" style={{ color, background: `color-mix(in srgb, ${color} 14%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 40%, transparent)` }}>
-                      Occupé par {holder.display_name}
-                    </span>
-                  ) : (
-                    <span className={`${FONT_MONO} ml-auto rounded-full px-2.5 py-0.5 text-sm font-bold tracking-widest`} style={{ color: 'var(--danger)', background: 'color-mix(in srgb, var(--danger) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--danger) 40%, transparent)' }}>
-                      ◆ RECHERCHÉ
-                    </span>
-                  )}
+              <div key={rank} className="flex h-full flex-col gap-2 rounded-xl border bg-card/50 p-4" style={{ borderColor: `color-mix(in srgb, ${color} 40%, transparent)` }}>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg" aria-hidden="true">{meta.icon}</span>
+                  <span className={`${FONT_TITLE} text-base font-bold tracking-wide text-foreground`}>{meta.label}</span>
                 </div>
                 <p className="text-sm font-semibold" style={{ color }}>{meta.subtitle}</p>
                 <p className="text-base leading-relaxed text-foreground/85">{RANK_DESC[rank]}</p>
-                {!holder && (
-                  <button type="button" onClick={onApply} className="mt-1 inline-flex w-fit min-h-11 items-center rounded-lg border px-4 py-2 text-sm font-bold tracking-wide text-foreground transition-colors" style={{ borderColor: `color-mix(in srgb, ${color} 55%, transparent)`, background: `color-mix(in srgb, ${color} 10%, transparent)` }}>
-                    Postuler ▶
-                  </button>
+                {holder ? (
+                  <span className="mt-auto w-fit rounded-full px-2.5 py-0.5 text-sm font-semibold [overflow-wrap:anywhere]" style={{ color, background: `color-mix(in srgb, ${color} 14%, transparent)`, border: `1px solid color-mix(in srgb, ${color} 40%, transparent)` }}>
+                    Occupé par {holder.display_name}
+                  </span>
+                ) : (
+                  <div className="mt-auto flex flex-col gap-2">
+                    <span className={`${FONT_MONO} w-fit rounded-full px-2.5 py-0.5 text-sm font-bold tracking-widest`} style={{ color: 'var(--danger)', background: 'color-mix(in srgb, var(--danger) 12%, transparent)', border: '1px solid color-mix(in srgb, var(--danger) 40%, transparent)' }}>
+                      ◆ RECHERCHÉ
+                    </span>
+                    <button type="button" onClick={onApply} className="inline-flex w-fit min-h-11 items-center rounded-lg border px-4 py-2 text-sm font-bold tracking-wide text-foreground transition-colors" style={{ borderColor: `color-mix(in srgb, ${color} 55%, transparent)`, background: `color-mix(in srgb, ${color} 10%, transparent)` }}>
+                      Postuler ▶
+                    </button>
+                  </div>
                 )}
               </div>
             )
@@ -503,14 +473,11 @@ export function GuildClient({
           <p className="mt-4 rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2.5 text-sm text-destructive">Roster temporairement indisponible. Tu peux quand même postuler.</p>
         )}
 
-        {/* Conseil — carrousel compact, moteur du FOMO */}
-        <CouncilCarousel byRank={byRank} onApply={openModal} />
-
-        {/* Recrues validées — rangée compacte */}
+        {/* Recrues validées — carrousel compact (le Conseil vit dans "Les postes recherchés") */}
         {recruits.length > 0 ? (
-          <RecruitsRow recruits={recruits} />
+          <RecruitsCarousel recruits={recruits} />
         ) : (
-          <p className="mt-5 text-base text-muted-foreground">Sois la première recrue de la guilde.</p>
+          <p className="mt-5 text-base text-muted-foreground">Sois la première recrue à rejoindre la mission.</p>
         )}
 
         {/* CTA principal unique */}
