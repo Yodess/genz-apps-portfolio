@@ -3,97 +3,107 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ===========================================================================
+   Palette SaaS Quest — tokens GLOBAUX (mêmes valeurs que /jointheproject).
+   Surfaces dark, primary orange, accent teal, gold/purple/danger.
+   =========================================================================== */
 :root {
-  --background: oklch(0.13 0.01 260);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.16 0.01 260);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.16 0.01 260);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.65 0.18 220);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.22 0.01 260);
-  --secondary-foreground: oklch(0.85 0 0);
-  --muted: oklch(0.22 0.01 260);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.55 0.15 165);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.28 0.01 260);
-  --input: oklch(0.22 0.01 260);
-  --ring: oklch(0.65 0.18 220);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.16 0.01 260);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.65 0.18 220);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.22 0.01 260);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.28 0.01 260);
-  --sidebar-ring: oklch(0.65 0.18 220);
-  
-  /* Custom colors for status badges */
-  --success: oklch(0.65 0.18 165);
-  --success-foreground: oklch(0.98 0 0);
-  --warning: oklch(0.75 0.18 75);
-  --warning-foreground: oklch(0.15 0 0);
-  --accent-gold: oklch(0.82 0.15 85);
-  --accent-purple: oklch(0.62 0.21 300);
-  --danger: oklch(0.63 0.24 25);
+  --background: #0f0f13;
+  --foreground: #ffffff;
+  --card: #1a1a24;
+  --card-foreground: #ffffff;
+  --popover: #1a1a24;
+  --popover-foreground: #ffffff;
+  --primary: #ff6a00;
+  --primary-foreground: #15100a;
+  --secondary: #22222e;
+  --secondary-foreground: #e6e6ea;
+  --muted: #20202b;
+  --muted-foreground: #8a8a9a;
+  --accent: #00d4aa;
+  --accent-foreground: #06241d;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #2a2a3a;
+  --input: #2a2a3a;
+  --ring: #ff6a00;
+  --chart-1: #ff6a00;
+  --chart-2: #00d4aa;
+  --chart-3: #3b82f6;
+  --chart-4: #7c3aed;
+  --chart-5: #f5b942;
+  --radius: 0.75rem;
+  --sidebar: #1a1a24;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ff6a00;
+  --sidebar-primary-foreground: #15100a;
+  --sidebar-accent: #22222e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a2a3a;
+  --sidebar-ring: #ff6a00;
+
+  /* Accents gamifiés + statuts */
+  --success: #00d4aa;
+  --success-foreground: #06241d;
+  --warning: #f5b942;
+  --warning-foreground: #1a1408;
+  --accent-gold: #f5b942;
+  --accent-purple: #7c3aed;
+  --accent-blue: #3b82f6;
+  --danger: #ef4444;
 }
 
+/* Pas de bascule de thème sur le site : .dark = identique à :root. */
 .dark {
-  --background: oklch(0.13 0.01 260);
-  --foreground: oklch(0.98 0 0);
-  --card: oklch(0.16 0.01 260);
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.16 0.01 260);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.65 0.18 220);
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.22 0.01 260);
-  --secondary-foreground: oklch(0.85 0 0);
-  --muted: oklch(0.22 0.01 260);
-  --muted-foreground: oklch(0.65 0 0);
-  --accent: oklch(0.55 0.15 165);
-  --accent-foreground: oklch(0.98 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.28 0.01 260);
-  --input: oklch(0.22 0.01 260);
-  --ring: oklch(0.65 0.18 220);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.16 0.01 260);
-  --sidebar-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.65 0.18 220);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --sidebar-accent: oklch(0.22 0.01 260);
-  --sidebar-accent-foreground: oklch(0.98 0 0);
-  --sidebar-border: oklch(0.28 0.01 260);
-  --sidebar-ring: oklch(0.65 0.18 220);
-  
-  --success: oklch(0.65 0.18 165);
-  --success-foreground: oklch(0.98 0 0);
-  --warning: oklch(0.75 0.18 75);
-  --warning-foreground: oklch(0.15 0 0);
-  --accent-gold: oklch(0.82 0.15 85);
-  --accent-purple: oklch(0.62 0.21 300);
-  --danger: oklch(0.63 0.24 25);
+  --background: #0f0f13;
+  --foreground: #ffffff;
+  --card: #1a1a24;
+  --card-foreground: #ffffff;
+  --popover: #1a1a24;
+  --popover-foreground: #ffffff;
+  --primary: #ff6a00;
+  --primary-foreground: #15100a;
+  --secondary: #22222e;
+  --secondary-foreground: #e6e6ea;
+  --muted: #20202b;
+  --muted-foreground: #8a8a9a;
+  --accent: #00d4aa;
+  --accent-foreground: #06241d;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #2a2a3a;
+  --input: #2a2a3a;
+  --ring: #ff6a00;
+  --chart-1: #ff6a00;
+  --chart-2: #00d4aa;
+  --chart-3: #3b82f6;
+  --chart-4: #7c3aed;
+  --chart-5: #f5b942;
+  --sidebar: #1a1a24;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #ff6a00;
+  --sidebar-primary-foreground: #15100a;
+  --sidebar-accent: #22222e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2a2a3a;
+  --sidebar-ring: #ff6a00;
+
+  --success: #00d4aa;
+  --success-foreground: #06241d;
+  --warning: #f5b942;
+  --warning-foreground: #1a1408;
+  --accent-gold: #f5b942;
+  --accent-purple: #7c3aed;
+  --accent-blue: #3b82f6;
+  --danger: #ef4444;
 }
 
 @theme inline {
-  --font-sans: 'Inter', 'Geist', 'Geist Fallback', system-ui, sans-serif;
-  --font-mono: 'Fira Code', 'Geist Mono', 'Geist Mono Fallback', monospace;
+  /* Fonts : Rajdhani (corps), Orbitron (titres/HUD), Amiri (arabe), Fira (mono). */
+  --font-sans: var(--font-rajdhani), 'Segoe UI', system-ui, sans-serif;
+  --font-display: var(--font-orbitron), 'Segoe UI', sans-serif;
+  --font-arabic: var(--font-amiri), serif;
+  --font-mono: var(--font-fira-code), 'Geist Mono', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -134,6 +144,10 @@
   --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-purple: var(--accent-purple);
+  --color-accent-blue: var(--accent-blue);
+  --color-danger: var(--danger);
 }
 
 @layer base {
@@ -141,6 +155,90 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    /* Fond SaaS Quest : dark + radial-gradients (violet HG, teal BD) */
+    background-image:
+      radial-gradient(circle at 15% 8%, color-mix(in srgb, var(--accent-purple) 12%, transparent), transparent 42%),
+      radial-gradient(circle at 85% 92%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 42%);
+    background-attachment: fixed;
   }
+  /* Titres en Orbitron (display) — corps reste en Rajdhani. */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: 0.3px;
+  }
+}
+
+/* ===========================================================================
+   Rendu des articles de blog (MDX) — thème sombre lisible.
+   Titres Orbitron, corps Rajdhani ≥16px, liens primary, code sur bg-card.
+   =========================================================================== */
+@layer components {
+  .article-content {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--foreground);
+  }
+  .article-content h1,
+  .article-content h2,
+  .article-content h3,
+  .article-content h4 {
+    font-family: var(--font-display);
+    color: var(--foreground);
+    line-height: 1.25;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.3px;
+  }
+  .article-content h1 { font-size: 2rem; }
+  .article-content h2 { font-size: 1.6rem; }
+  .article-content h3 { font-size: 1.3rem; }
+  .article-content h4 { font-size: 1.1rem; }
+  .article-content p {
+    margin: 1rem 0;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--foreground);
+  }
+  .article-content a {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .article-content a:hover { filter: brightness(1.2); }
+  .article-content strong { color: var(--foreground); font-weight: 700; }
+  .article-content ul, .article-content ol { margin: 1rem 0; padding-left: 1.5rem; }
+  .article-content ul li { list-style: disc; margin: 0.4rem 0; line-height: 1.6; }
+  .article-content ol li { list-style: decimal; margin: 0.4rem 0; line-height: 1.6; }
+  .article-content blockquote {
+    border-left: 3px solid var(--primary);
+    background: var(--card);
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    border-radius: 0 8px 8px 0;
+    color: var(--muted-foreground);
+  }
+  .article-content code {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.1rem 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--accent-gold);
+  }
+  .article-content pre {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+  }
+  .article-content pre code { background: none; border: none; padding: 0; color: var(--foreground); }
+  .article-content img { border-radius: 12px; border: 1px solid var(--border); margin: 1.25rem 0; max-width: 100%; height: auto; }
+  .article-content hr { border-color: var(--border); margin: 2rem 0; }
+  .article-content table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; }
+  .article-content th, .article-content td { border: 1px solid var(--border); padding: 0.5rem 0.75rem; text-align: left; }
+  .article-content th { background: var(--card); font-family: var(--font-display); font-size: 0.95rem; }
 }

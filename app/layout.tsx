@@ -1,19 +1,13 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Fira_Code } from 'next/font/google'
+import { Orbitron, Rajdhani, Amiri, Fira_Code } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const inter = Inter({ 
-  subsets: ["latin"],
-  variable: '--font-inter',
-  display: 'swap',
-});
-
-const firaCode = Fira_Code({ 
-  subsets: ["latin"],
-  variable: '--font-fira-code',
-  display: 'swap',
-});
+// Fonts SaaS Quest chargées GLOBALEMENT (réutilisées par toute la app + /jointheproject).
+const orbitron = Orbitron({ subsets: ['latin'], weight: ['500', '700', '900'], variable: '--font-orbitron', display: 'swap' })
+const rajdhani = Rajdhani({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-rajdhani', display: 'swap' })
+const amiri = Amiri({ subsets: ['arabic'], weight: ['400', '700'], variable: '--font-amiri', display: 'swap' })
+const firaCode = Fira_Code({ subsets: ['latin'], variable: '--font-fira-code', display: 'swap' })
 
 const SITE_URL = 'https://www.genz-apps.com'
 
@@ -79,7 +73,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className={`${inter.variable} ${firaCode.variable}`}>
+    <html lang="fr" className={`${orbitron.variable} ${rajdhani.variable} ${amiri.variable} ${firaCode.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
         <Analytics />

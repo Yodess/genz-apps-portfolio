@@ -69,7 +69,7 @@ export function Navbar() {
               <button
                 key={link.label}
                 onClick={() => scrollToSection(link.href)}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 {link.label}
               </button>
@@ -105,7 +105,7 @@ export function Navbar() {
                 <button
                   key={link.label}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-left px-2 py-3 text-muted-foreground hover:text-foreground transition-colors"
+                  className="text-left px-2 py-3 text-muted-foreground hover:text-primary transition-colors"
                 >
                   {link.label}
                 </button>

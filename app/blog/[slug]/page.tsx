@@ -106,7 +106,7 @@ export default async function BlogPostPage({ params }: Props) {
         </p>
 
         {/* Content */}
-        <article className="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-semibold prose-a:text-foreground prose-a:underline prose-a:underline-offset-4">
+        <article className="article-content max-w-none">
           <MDXRemote source={post.content} />
         </article>
 
@@ -116,7 +116,7 @@ export default async function BlogPostPage({ params }: Props) {
           <p className="text-sm text-muted-foreground mb-4">Décrivez-nous votre idée — réponse sous 24h.</p>
           <Link
             href="/#devis"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-6px_var(--primary)] motion-reduce:hover:translate-y-0"
           >
             Demander un devis gratuit
           </Link>
